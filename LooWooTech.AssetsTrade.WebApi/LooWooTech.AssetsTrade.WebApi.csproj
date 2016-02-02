@@ -112,6 +112,11 @@
   <ItemGroup>
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Common\AuthUtils.cs" />
+    <Compile Include="Common\ControllerBase.cs" />
+    <Compile Include="Common\UserAuthorizeAttribute.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -130,11 +135,23 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LooWooTech.AssetsTrade.Common\LooWooTech.AssetsTrade.Common.csproj">
+      <Project>{727d4b01-9188-4711-992b-0ed425c54d1e}</Project>
+      <Name>LooWooTech.AssetsTrade.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LooWooTech.AssetsTrade.Managers\LooWooTech.AssetsTrade.Managers.csproj">
+      <Project>{00fb4b1c-db16-4896-ab95-ecc5d3fecfd1}</Project>
+      <Name>LooWooTech.AssetsTrade.Managers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LooWooTech.AssetsTrade.Models\LooWooTech.AssetsTrade.Models.csproj">
+      <Project>{4e833563-9bfc-4288-88ec-ab1d8da54bf2}</Project>
+      <Name>LooWooTech.AssetsTrade.Models</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
