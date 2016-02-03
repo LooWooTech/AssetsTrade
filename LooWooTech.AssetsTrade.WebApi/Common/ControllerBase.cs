@@ -20,11 +20,7 @@ namespace LooWooTech.AssetsTrade.WebApi
         private static string _serializeType = System.Configuration.ConfigurationManager.AppSettings["SerializeType"] ?? "xml";
         private string GetSerializedContent(object data)
         {
-            if (string.IsNullOrEmpty(_serializeType))
-            {
-                _serializeType = "xml";
-            }
-            if (_serializeType.ToLower() == "json")
+            if (_serializeType == "json")
             {
                 return data.JsonSerialize();
             }
