@@ -6,23 +6,29 @@ using System.Web.Mvc;
 
 namespace LooWooTech.AssetsTrade.WebApi.Controllers
 {
-    public class UserController : ControllerBase
+    public class ChildAccountController : ControllerBase
     {
         [UserAuthorize(Disabled = true)]
         public ActionResult Login(string username, string password)
         {
-            var user = Core.UserManager.GetUser(username, password);
-            if (user == null)
+            var account = Core.ChildAccountManager.GetAccount(username, password);
+            if (account == null)
             {
-                var token = HttpContext.GenerateToken(user);
+                var token = HttpContext.GetAccessToken(account.ChildID.ToString(), account.ChildName);
                 return SuccessResult(new
                 {
                     token,
-                    userId = user.ID,
-                    username = user.Username
+                    userId = account.ChildID,
+                    username = account.ChildName
                 });
             }
             throw new HttpException(401, "用户名或密码不正确");
+        }
+
+        public ActionResult Logout()
+        {
+            HttpContext.Logout();
+            return SuccessResult();
         }
     }
 }

@@ -15,13 +15,7 @@ namespace LooWooTech.AssetsTrade.WebApi
 
         protected override bool AuthorizeCore(HttpContextBase httpContext)
         {
-            var user = AuthUtils.GetUserID(httpContext);
-            if (user != null)
-            {
-                httpContext.User = new GenericPrincipal(new GenericIdentity(user.ID), new[] { "user" });
-                return true;
-            }
-            return false;
+            return httpContext.User.Identity.IsAuthenticated;
         }
 
         protected override void HandleUnauthorizedRequest(AuthorizationContext filterContext)

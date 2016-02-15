@@ -1,11 +1,11 @@
-﻿using LooWooTech.AssetsTrade.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Security;
 using System.Collections.Concurrent;
 using LooWooTech.AssetsTrade.Common;
+using System.Threading;
 
 namespace LooWooTech.AssetsTrade.WebApi
 {
@@ -15,12 +15,21 @@ namespace LooWooTech.AssetsTrade.WebApi
 
         private static LocalCacheService Cache = new LocalCacheService();
 
-        public static string GenerateToken(this HttpContextBase context, User user)
+        public static string GetAccessToken(this HttpContextBase context, string userId,string username)
         {
-            var ticket = new FormsAuthenticationTicket(user.ID + "|" + user.Username, true, 60);
+            var ticket = new FormsAuthenticationTicket(userId + "|" + username, true, 60);
             var token = FormsAuthentication.Encrypt(ticket);
-            UpdateQueryTime(user.ID);
+            UpdateQueryTime(userId);
             return token;
+        }
+
+        public static void Logout(this HttpContextBase context)
+        {
+            var userId = context.User.Identity.Name;
+            if (!string.IsNullOrEmpty(userId))
+            {
+                Cache.HRemove(CacheKey, userId);
+            }
         }
 
         private static void UpdateQueryTime(string userId)
@@ -28,7 +37,7 @@ namespace LooWooTech.AssetsTrade.WebApi
             Cache.HGetOrSet(CacheKey, userId, () => DateTime.Now);
         }
 
-        public static User GetUserID(this HttpContextBase context)
+        public static UserIdentity GetCurrentUser(this HttpContextBase context)
         {
             var token = context.Request.Headers["token"];
             if (string.IsNullOrEmpty(token)) return null;
@@ -54,7 +63,7 @@ namespace LooWooTech.AssetsTrade.WebApi
                         {
                             UpdateQueryTime(userId);
                         }
-                        return new User { ID = userId, Username = username };
+                        return new UserIdentity { ID = userId, Name = username };
                     }
                 }
             }

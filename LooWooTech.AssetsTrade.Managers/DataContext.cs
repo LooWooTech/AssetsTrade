@@ -15,7 +15,13 @@ namespace LooWooTech.AssetsTrade.Managers
             Database.SetInitializer<DataContext>(null);
         }
 
-        public DbSet<User> Users { get; set; }
+        //public DbSet<User> Users { get; set; }
+
+        public DbSet<ChildAccount> ChildAccounts { get; set; }
+
+        public DbSet<ChildStock> ChildStocks { get; set; }
+
+        public DbSet<ChildAuthorize> ChildAuthorizes { get; set; }
 
     }
 }

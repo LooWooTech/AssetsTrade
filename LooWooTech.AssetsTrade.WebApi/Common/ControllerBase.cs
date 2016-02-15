@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Security.Principal;
 using System.Threading;
 using System.Web;
 using System.Web.Mvc;
@@ -16,6 +17,11 @@ namespace LooWooTech.AssetsTrade.WebApi
     public class ControllerBase : AsyncController
     {
         protected static ManagerCore Core = ManagerCore.Instance;
+        protected string CurrentUserId
+        {
+            get
+            { return Thread.CurrentPrincipal.Identity.Name; }
+        }
 
         private static string _serializeType = System.Configuration.ConfigurationManager.AppSettings["SerializeType"] ?? "xml";
         private string GetSerializedContent(object data)
@@ -32,13 +38,18 @@ namespace LooWooTech.AssetsTrade.WebApi
             return new ContentResult { Content = GetSerializedContent(data), ContentEncoding = System.Text.Encoding.UTF8, ContentType = "text/" + _serializeType };
         }
 
-        protected ActionResult SuccessResult<T>(T data = null) where T : class
+        protected ActionResult SuccessResult<T>(T data) where T : class
         {
             if (data == null)
             {
                 return ContentResult(new SuccessResult { Code = 1 });
             }
             return ContentResult(data);
+        }
+
+        protected ActionResult SuccessResult()
+        {
+            return ContentResult(new SuccessResult { Code = 1 });
         }
 
         protected ActionResult ErrorResult(string message)
@@ -49,13 +60,6 @@ namespace LooWooTech.AssetsTrade.WebApi
         protected ActionResult ErrorResult(Exception ex)
         {
             return ContentResult(new ErrorResult { Code = 0, Message = ex.Message, StackTrace = ex.StackTrace });
-        }
-
-        protected override void OnActionExecuting(ActionExecutingContext filterContext)
-        {
-            ViewBag.Controller = filterContext.RequestContext.RouteData.Values["controller"];
-            ViewBag.Action = filterContext.RequestContext.RouteData.Values["action"];
-            base.OnActionExecuting(filterContext);
         }
 
         private int GetStatusCode(Exception ex)

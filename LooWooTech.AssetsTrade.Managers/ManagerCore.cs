@@ -26,6 +26,7 @@ namespace LooWooTech.AssetsTrade.Managers
             }
         }
 
-        public UserManager UserManager { get; private set; }
+        public ChildAccountManager ChildAccountManager { get; private set; }
+
     }
 }
