@@ -29,6 +29,9 @@ namespace LooWooTech.AssetsTrade.Models
         /// 父ID，外键，与主帐号表中的MainID关联
         /// </summary>
         public string ParentID { get; set; }
+
+        [NotMapped]
+        public MainAccount Parent { get; set; }
         /// <summary>
         /// 子帐户密码
         /// </summary>

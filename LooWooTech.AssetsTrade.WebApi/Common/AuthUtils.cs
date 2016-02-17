@@ -15,7 +15,7 @@ namespace LooWooTech.AssetsTrade.WebApi
 
         private static LocalCacheService Cache = new LocalCacheService();
 
-        public static string GetAccessToken(this HttpContextBase context, string userId,string username)
+        public static string GetAccessToken(this HttpContextBase context, string userId, string username)
         {
             var ticket = new FormsAuthenticationTicket(userId + "|" + username, true, 60);
             var token = FormsAuthentication.Encrypt(ticket);
@@ -40,37 +40,38 @@ namespace LooWooTech.AssetsTrade.WebApi
         public static UserIdentity GetCurrentUser(this HttpContextBase context)
         {
             var token = context.Request.Headers["token"];
-            if (string.IsNullOrEmpty(token)) return null;
-
-            try
+            if (!string.IsNullOrEmpty(token))
             {
-                var ticket = FormsAuthentication.Decrypt(token);
-                if (ticket != null && !string.IsNullOrEmpty(ticket.Name))
+                try
                 {
-                    var values = ticket.Name.Split('|');
-                    if (values.Length == 2)
+                    var ticket = FormsAuthentication.Decrypt(token);
+                    if (ticket != null && !string.IsNullOrEmpty(ticket.Name))
                     {
-                        var userId = values[0];
-                        var username = values[1];
-                        var lastQueryTime = Cache.HGet<DateTime>(CacheKey, userId);
-                        //操作时间过期
-                        if ((DateTime.Now - lastQueryTime).TotalMinutes > 20)
+                        var values = ticket.Name.Split('|');
+                        if (values.Length == 2)
                         {
-                            Cache.HRemove(CacheKey, userId);
-                            return null;
+                            var userId = values[0];
+                            var username = values[1];
+                            var lastQueryTime = Cache.HGet<DateTime>(CacheKey, userId);
+                            //操作时间过期
+                            if ((DateTime.Now - lastQueryTime).TotalMinutes > 20)
+                            {
+                                Cache.HRemove(CacheKey, userId);
+                                return UserIdentity.Anonymouse;
+                            }
+                            else
+                            {
+                                UpdateQueryTime(userId);
+                            }
+                            return new UserIdentity { ID = userId, Name = username };
                         }
-                        else
-                        {
-                            UpdateQueryTime(userId);
-                        }
-                        return new UserIdentity { ID = userId, Name = username };
                     }
                 }
+                catch
+                {
+                }
             }
-            catch
-            {
-            }
-            return null;
+            return UserIdentity.Anonymouse;
         }
     }
 }

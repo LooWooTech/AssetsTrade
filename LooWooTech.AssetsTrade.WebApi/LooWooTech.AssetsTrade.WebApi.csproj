@@ -110,8 +110,9 @@
     <Compile Include="Common\AuthUtils.cs" />
     <Compile Include="Common\ControllerBase.cs" />
     <Compile Include="Common\UserAuthorizeAttribute.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\ChildAccountController.cs" />
+    <Compile Include="Controllers\TradeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

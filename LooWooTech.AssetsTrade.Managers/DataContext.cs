@@ -10,18 +10,22 @@ namespace LooWooTech.AssetsTrade.Managers
 {
     public class DataContext : DbContext
     {
-        public DataContext():base("name=DefaultConnection")
+        public DataContext() : base("name=DefaultConnection")
         {
             Database.SetInitializer<DataContext>(null);
         }
 
         //public DbSet<User> Users { get; set; }
 
+        public DbSet<MainAccount> MainAccounts { get; set; }
+
         public DbSet<ChildAccount> ChildAccounts { get; set; }
 
         public DbSet<ChildStock> ChildStocks { get; set; }
 
         public DbSet<ChildAuthorize> ChildAuthorizes { get; set; }
+
+        public DbSet<StockTradeSet> StockTradeSets { get; set; }
 
     }
 }

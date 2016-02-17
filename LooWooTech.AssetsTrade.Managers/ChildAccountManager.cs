@@ -8,9 +8,23 @@ using System.Threading.Tasks;
 
 namespace LooWooTech.AssetsTrade.Managers
 {
-    public class ChildAccountManager : ManagerBase
+    public class ChildAccoutManager : ManagerBase
     {
-        public ChildAccount GetAccount(string username,string password = null)
+        public ChildAccount GetAccount(int accountId)
+        {
+            using (var db = GetDbContext())
+            {
+                var entity =  db.ChildAccounts.FirstOrDefault(e => e.ChildID == accountId);
+                if(entity != null)
+                {
+                    entity.Parent = db.MainAccounts.FirstOrDefault(e => e.MainID == entity.ParentID);
+                    return entity;
+                }
+                throw new ArgumentException("不存在该子账户");
+            }
+        }
+
+        public ChildAccount GetAccount(string username, string password = null)
         {
             if (string.IsNullOrEmpty(username))
             {
@@ -31,7 +45,7 @@ namespace LooWooTech.AssetsTrade.Managers
             }
         }
 
-        public void UpdatePassword(string username,string oldPassword,string newPassword)
+        public void UpdatePassword(string username, string oldPassword, string newPassword)
         {
             using (var db = GetDbContext())
             {
@@ -40,7 +54,7 @@ namespace LooWooTech.AssetsTrade.Managers
                 {
                     throw new ArgumentException("用户不存在");
                 }
-                if(entity.Password != oldPassword.MD5())
+                if (entity.Password != oldPassword.MD5())
                 {
                     throw new ArgumentException("旧密码不正确");
                 }
