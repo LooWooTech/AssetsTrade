@@ -48,6 +48,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DateTimeExtensions.cs" />
     <Compile Include="EncryptExtensions.cs" />
     <Compile Include="JsonSerializeExtension.cs" />
     <Compile Include="LocalCacheService.cs" />

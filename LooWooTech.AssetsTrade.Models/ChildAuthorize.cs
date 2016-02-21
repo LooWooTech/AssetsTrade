@@ -6,6 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using LooWooTech.AssetsTrade.Common;
+
+
 namespace LooWooTech.AssetsTrade.Models
 {
     /// <summary>
@@ -24,7 +27,32 @@ namespace LooWooTech.AssetsTrade.Models
         /// <summary>
         /// 委托时间
         /// </summary>
-        public int AuthorizeTime { get; set; }
+        [Column("AuthorizeTime")]
+        public int AuthorizeTimeValue
+        {
+            get
+            {
+                return _authorizeTime.ToUnixTime();
+            }
+            set
+            {
+                _authorizeTime = value.ToDateTime();
+            }
+        }
+
+        private DateTime _authorizeTime;
+        [NotMapped]
+        public DateTime AuthorizeTime
+        {
+            get
+            {
+                return _authorizeTime;
+            }
+            set
+            {
+                _authorizeTime = value;
+            }
+        }
         /// <summary>
         /// 证券代码
         /// </summary>

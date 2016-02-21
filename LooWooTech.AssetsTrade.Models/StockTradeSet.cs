@@ -19,8 +19,17 @@ namespace LooWooTech.AssetsTrade.Models
 
         public string ParentID { get; set; }
 
+        /// <summary>
+        /// 是否新股
+        /// </summary>
         public int IsNew { get; set; }
+        /// <summary>
+        /// 是否ST股票
+        /// </summary>
         public int IsST { get; set; }
+        /// <summary>
+        /// 是否是创业板股票
+        /// </summary>
         public int IsChuangYeBan { get; set; }
 
         [MaxLength(8)]

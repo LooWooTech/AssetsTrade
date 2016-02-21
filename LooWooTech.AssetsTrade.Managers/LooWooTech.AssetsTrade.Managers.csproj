@@ -60,7 +60,6 @@
     <Compile Include="ManagerBase.cs" />
     <Compile Include="ManagerCore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StockManager.cs" />
     <Compile Include="TdxTrade.cs" />
     <Compile Include="TradeManager.cs" />
   </ItemGroup>
