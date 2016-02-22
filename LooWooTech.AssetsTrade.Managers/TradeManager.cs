@@ -51,23 +51,16 @@ namespace LooWooTech.AssetsTrade.Managers
         /// <summary>
         /// 买入股票
         /// </summary>
-        public void Buy(string stockCode, int number, float price, int childId)
+        public void ToBuy(string stockCode, int number, float price, int childId)
         {
             using (var db = GetDbContext())
             {
                 var child = db.ChildAccounts.FirstOrDefault(e => e.ChildID == childId);
                 //股票费用
                 var stockPrice = number * price;
-                //手续费
-                var shouxufei = stockPrice * child.Commission;
-                if (child.ISLowFiveMoney == 1 && shouxufei < 5)
-                {
-                    shouxufei = 5;
-                }
-                //过户费
-                var guohufei = stockCode.StartsWith("6") ? stockPrice * child.GuoHuFei : 0;
+
                 //总费用
-                var totalPrice = stockPrice + shouxufei + guohufei;
+                var totalPrice = stockPrice + child.GetShouXuFei(stockCode, price, number) + child.GetGuoHuFei(stockCode, price, number);
                 //判断余额
                 if (child.UseableMoney < totalPrice)
                 {
@@ -121,7 +114,7 @@ namespace LooWooTech.AssetsTrade.Managers
         /// <summary>
         /// 卖出股票
         /// </summary>
-        public void Sell(string stockCode, int number, float price, int childId)
+        public void ToSell(string stockCode, int number, float price, int childId)
         {
             using (var db = GetDbContext())
             {
@@ -185,7 +178,7 @@ namespace LooWooTech.AssetsTrade.Managers
                 {
                     throw new ArgumentException("没有找到该委托");
                 }
-                if(authorize.AuthorizeState.Contains("撤"))
+                if (authorize.AuthorizeState.Contains("撤"))
                 {
                     throw new Exception("该委托已提交过撤单");
                 }
@@ -203,6 +196,100 @@ namespace LooWooTech.AssetsTrade.Managers
                 {
                     throw new Exception(error);
                 }
+            }
+        }
+
+        public void UpdateAuthorize(ChildAuthorize model)
+        {
+            using (var db = GetDbContext())
+            {
+                var entity = db.ChildAuthorizes.FirstOrDefault(e => e.AuthorizeIndex == model.AuthorizeIndex);
+                if (entity == null) return;
+                var endStatus = "已成,已撤,部撤,已报";
+                //如果状态不变且处于终结状态，则说明是当前状态已处理过的委托
+                if (entity.AuthorizeState == model.AuthorizeState && endStatus.Contains(model.AuthorizeState))
+                {
+                    return;
+                }
+
+                var isBuy = entity.TradeFlag == "1";
+                var child = db.ChildAccounts.FirstOrDefault(e => e.ChildID == entity.ClientID);
+                var stock = db.ChildStocks.FirstOrDefault(e => e.StockCode == model.StockCode && e.ChildID == entity.ClientID);
+                //本次成交量变化
+                switch (model.AuthorizeState)
+                {
+                    case "已成":
+                    case "已撤":
+                    case "部撤":
+                        var shouxufei = child.GetShouXuFei(model.StockCode, model.StrikePrice, model.StrikeCount);
+                        var guohufei = child.GetGuoHuFei(model.StockCode, model.StrikePrice, model.StrikeCount);
+                        //扣除手续费和过户费
+                        child.UseableMoney = child.UseableMoney - shouxufei - guohufei;
+                        if (isBuy)
+                        {
+                            //如果是买入，持仓股票总量增加
+                            if (stock != null)
+                            {
+                                stock.AllCount += model.StrikeCount;
+                            }
+                            else
+                            {
+                                //如果持仓不存在该股，则添加新纪录
+                                stock = new ChildStock
+                                {
+                                    AllCount = model.StrikeCount,
+                                    ChildID = entity.ClientID,
+                                    CurrentPrice = model.StrikePrice,
+                                    LastTime = DateTime.Now.ToUnixTime(),
+                                    PrimeCost = model.StrikePrice,
+                                    StockCode = model.StockCode,
+                                    StockName = model.StockName,
+                                    ID = DateTime.Now.ToString("yyyyMMddHHmmssffff")
+                                };
+                                db.ChildStocks.Add(stock);
+                            }
+                        }
+                        else
+                        {
+                            //如果是卖出，扣除印花税，另外余额增加股票的市值
+                            child.UseableMoney -= child.GetYinHuaShui(model.StockCode, model.StrikePrice, model.StrikeCount);
+                            child.UseableMoney += model.StrikePrice * model.StrikeCount;
+
+                            //更新持仓数量
+                            stock.AllCount -= model.StrikeCount;
+                            stock.UseableCount -= model.StrikeCount;
+                        }
+
+                        //如果是撤单
+                        if (model.AuthorizeState.Contains("撤"))
+                        {
+                            //更新撤单数量
+                            entity.UndoCount = model.AuthorizeCount - model.StrikeCount;
+                            if (isBuy)
+                            {
+                                child.UseableMoney += model.StrikePrice * model.StrikeCount;
+                                stock.AllCount -= model.StrikeCount;
+                                stock.UseableCount -= model.StrikeCount;
+                            }
+                            else
+                            {
+                                stock.AllCount += model.StrikeCount;
+                                stock.UseableCount += model.StrikeCount;
+                            }
+                        }
+                        //成交时间
+                        entity.TradeTime = DateTime.Now.ToUnixTime();
+
+                        break;
+                    default:
+                        break;
+                }
+                entity.StrikeCount = model.StrikeCount;
+                entity.StrikePrice = model.StrikePrice;
+                entity.AuthorizeState = model.AuthorizeState;
+                entity.StockName = model.StockName;
+
+                db.SaveChanges();
             }
         }
     }

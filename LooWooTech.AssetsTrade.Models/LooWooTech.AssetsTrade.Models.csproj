@@ -67,6 +67,12 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LooWooTech.AssetsTrade.Common\LooWooTech.AssetsTrade.Common.csproj">
+      <Project>{727d4b01-9188-4711-992b-0ed425c54d1e}</Project>
+      <Name>LooWooTech.AssetsTrade.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

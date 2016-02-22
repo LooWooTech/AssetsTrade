@@ -68,14 +68,18 @@ namespace LooWooTech.AssetsTrade.Managers
         /// 查询委托
         /// </summary>
         /// <param name="flag">查询持仓 0  委托 1   成交 2   资金  3</param>
-        /// <param name="Result"></param>
+        /// <param name="Result">
+        /// 持仓：0股票代码 1股票名称 2股票数量 3可卖数量 4成本价 5当前价 6最近市值 7浮动盈亏 8盈亏比例 9股东代码
+        /// 委托：0时间 1股票代码 2股票名称 3、0 4买卖标志 5状态说明 6委托价格 7委托数量 8委托编号 9成交数量 10成交均价 11成交金额 12报价方式 13股东代码
+        /// 成交：
+        /// </param>
         /// <param name="ErrInfo"></param>
         [DllImport("TdxTrade.dll")]
         public static extern void QueryData(int flag, ref string Result, ref string ErrInfo);
         /// <summary>
         /// 查询历史成交
         /// </summary>
-        /// <param name="start">查询的开始日期20151010</param>
+        /// <param name="start">查询的开始日期</param>
         /// <param name="end">查询结束日期</param>
         /// <param name="Result"></param>
         /// <param name="ErrInfo"></param>
@@ -85,7 +89,7 @@ namespace LooWooTech.AssetsTrade.Managers
         /// <summary>
         /// 查询资金流水
         /// </summary>
-        /// <param name="start">查询的开始日期20151010</param>
+        /// <param name="start">查询的开始日期</param>
         /// <param name="end">查询结束日期</param>
         /// <param name="Result"></param>
         /// <param name="ErrInfo"></param>

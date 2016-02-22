@@ -50,18 +50,18 @@ namespace LooWooTech.AssetsTrade.WebApi
                         var values = ticket.Name.Split('|');
                         if (values.Length == 2)
                         {
-                            var userId = values[0];
+                            var userId = int.Parse(values[0]);
                             var username = values[1];
-                            var lastQueryTime = Cache.HGet<DateTime>(CacheKey, userId);
+                            var lastQueryTime = Cache.HGet<DateTime>(CacheKey, userId.ToString());
                             //操作时间过期
                             if ((DateTime.Now - lastQueryTime).TotalMinutes > 20)
                             {
-                                Cache.HRemove(CacheKey, userId);
+                                Cache.HRemove(CacheKey, userId.ToString());
                                 return UserIdentity.Anonymouse;
                             }
                             else
                             {
-                                UpdateQueryTime(userId);
+                                UpdateQueryTime(userId.ToString());
                             }
                             return new UserIdentity { ID = userId, Name = username };
                         }

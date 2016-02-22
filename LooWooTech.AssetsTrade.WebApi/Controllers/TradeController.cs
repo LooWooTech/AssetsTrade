@@ -9,29 +9,31 @@ namespace LooWooTech.AssetsTrade.WebApi.Controllers
 {
     public class TradeController : ControllerBase
     {
-        private ChildAccount GetCurrentAccount()
-        {
-            return Core.ChildAccountManager.GetAccount(CurrentUser.ID); 
-        }
-
         /// <summary>
         /// 买入股
         /// </summary>
         public ActionResult Buy(string stockCode, int number, float price)
         {
-            var account = GetCurrentAccount();
-            Core.TradeManager.Buy(stockCode, number, price, account);
-            return View();
+            Core.TradeManager.ToBuy(stockCode, number, price, CurrentUser.ID);
+            return SuccessResult();
         }
 
         /// <summary>
         /// 卖出股票
         /// </summary>
-        public ActionResult Sell(string stockCode,int number,float price)
+        public ActionResult Sell(string stockCode, int number, float price)
         {
-            var account = GetCurrentAccount();
-            Core.TradeManager.Sell(stockCode, number, price);
-            return View();
+            Core.TradeManager.ToSell(stockCode, number, price, CurrentUser.ID);
+            return SuccessResult();
+        }
+
+        /// <summary>
+        /// 撤单
+        /// </summary>
+        public ActionResult Cancel(string stockCode, string authorizeIndex)
+        {
+            Core.TradeManager.CancelOrder(authorizeIndex, stockCode, CurrentUser.ID);
+            return SuccessResult();
         }
     }
 }

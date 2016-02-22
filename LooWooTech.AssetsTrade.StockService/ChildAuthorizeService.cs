@@ -27,6 +27,9 @@ namespace LooWooTech.AssetsTrade.StockService
 
         private void Dowork()
         {
+            //查询当日委托
+
+            //更新委托
 
         }
 

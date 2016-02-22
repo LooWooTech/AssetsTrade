@@ -109,5 +109,33 @@ namespace LooWooTech.AssetsTrade.Models
         public int IsNew { get; set; }
         public int IsST { get; set; }
         public int IsChuangYeBan { get; set; }
+
+        public float GetShouXuFei(string stockCode,float price, int number)
+        {
+            var result = (price * number) * Commission;
+            if (ISLowFiveMoney == 1 && result < 5)
+            {
+                result = 5;
+            }
+            return result;
+        }
+
+        public float GetYinHuaShui(string stockCode,float price,int number)
+        {
+            if(stockCode.StartsWith("1"))
+            {
+                return 0;   
+            }
+            return price * number * YinHuaShui;
+        }
+
+        public float GetGuoHuFei(string stockCode,float price, int number)
+        {
+            if (stockCode.StartsWith("6"))
+            {
+                return  (price * number) * GuoHuFei;
+            }
+            return 0;
+        }
     }
 }

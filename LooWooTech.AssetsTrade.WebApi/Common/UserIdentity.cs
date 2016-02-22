@@ -31,7 +31,7 @@ namespace LooWooTech.AssetsTrade.WebApi
             }
         }
 
-        public string ID { get; set; }
+        public int ID { get; set; }
 
         public string AuthenticationType
         {
@@ -40,7 +40,7 @@ namespace LooWooTech.AssetsTrade.WebApi
 
         public bool IsAuthenticated
         {
-            get { return !string.IsNullOrEmpty(ID) && ID != "0"; }
+            get { return ID > 0; }
         }
 
         private string _name;
