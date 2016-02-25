@@ -9,7 +9,7 @@ namespace LooWooTech.AssetsTrade.Managers.TradeApi
 {
     internal static class TdxTradeApi
     {
-        [DllImport("TdxTrade.dll", CharSet = CharSet.Ansi)]
+        [DllImport("TdxTrade.dll")]
         public static extern void SetServer(string szHost, int nPort);
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace LooWooTech.AssetsTrade.Managers.TradeApi
         /// <param name="ErrInfo"></param>
         /// <returns></returns>
         [DllImport("TdxTrade.dll")]
-        public static extern int ToBuy(string sCode, int sNum, double sPrice, ref string Result, ref string ErrInfo);
+        public static extern int ToBuy(string sCode, int sNum, double sPrice, StringBuilder Result, StringBuilder ErrInfo);
         /// <summary>
         /// 下卖单
         /// </summary>
@@ -54,7 +54,7 @@ namespace LooWooTech.AssetsTrade.Managers.TradeApi
         /// <param name="ErrInfo"></param>
         /// <returns></returns>
         [DllImport("TdxTrade.dll")]
-        public static extern int ToSell(string sCode, int sNum, double sPrice, ref string Result, ref string ErrInfo);
+        public static extern int ToSell(string sCode, int sNum, double sPrice, StringBuilder Result, StringBuilder ErrInfo);
         /// <summary>
         /// 撤单指令
         /// </summary>
@@ -63,7 +63,7 @@ namespace LooWooTech.AssetsTrade.Managers.TradeApi
         /// <param name="Result"></param>
         /// <param name="ErrInfo"></param>
         [DllImport("TdxTrade.dll")]
-        public static extern void CancelOrder(string sCode, string szNumber, ref string Result, ref string ErrInfo);
+        public static extern void CancelOrder(string sCode, string szNumber, StringBuilder Result, StringBuilder ErrInfo);
         /// <summary>
         /// 查询委托
         /// </summary>
@@ -75,7 +75,7 @@ namespace LooWooTech.AssetsTrade.Managers.TradeApi
         /// </param>
         /// <param name="ErrInfo"></param>
         [DllImport("TdxTrade.dll")]
-        public static extern void QueryData(int flag, ref string Result, ref string ErrInfo);
+        public static extern void QueryData(int flag, StringBuilder Result, StringBuilder ErrInfo);
         /// <summary>
         /// 查询历史成交
         /// </summary>
@@ -84,7 +84,7 @@ namespace LooWooTech.AssetsTrade.Managers.TradeApi
         /// <param name="Result"></param>
         /// <param name="ErrInfo"></param>
         [DllImport("TdxTrade.dll")]
-        public static extern void QueryHistroyData(string start, string end, ref string Result, ref string ErrInfo);
+        public static extern void QueryHistroyData(string start, string end, StringBuilder Result, StringBuilder ErrInfo);
 
         /// <summary>
         /// 查询资金流水
@@ -94,6 +94,6 @@ namespace LooWooTech.AssetsTrade.Managers.TradeApi
         /// <param name="Result"></param>
         /// <param name="ErrInfo"></param>
         [DllImport("TdxTrade.dll")]
-        public static extern void QueryHistroyMoney(string start, string end, ref string Result, ref string ErrInfo);
+        public static extern void QueryHistroyMoney(string start, string end, StringBuilder Result, StringBuilder ErrInfo);
     }
 }

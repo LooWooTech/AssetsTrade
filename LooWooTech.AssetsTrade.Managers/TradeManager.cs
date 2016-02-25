@@ -11,8 +11,6 @@ namespace LooWooTech.AssetsTrade.Managers
 {
     public class TradeManager : ManagerBase
     {
-        private static string CacheKey = "Login";
-
         /// <summary>
         /// 买入股票
         /// </summary>

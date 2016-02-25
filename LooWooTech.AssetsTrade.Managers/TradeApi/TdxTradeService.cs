@@ -4,12 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LooWooTech.AssetsTrade.Models;
+using System.Runtime.InteropServices;
 
 namespace LooWooTech.AssetsTrade.Managers.TradeApi
 {
     public class TdxTradeService : ITradeService
     {
         private static bool _hasLogin = false;
+
+        private int _resultCapacity = 0x1000 * 100;
+        private int _errorCapacity = 0x100;
 
         public ApiResult Login(MainAccount account, ServiceIP ip)
         {
@@ -43,120 +47,120 @@ namespace LooWooTech.AssetsTrade.Managers.TradeApi
 
         public ApiResult Buy(string stockCode, int number, double price)
         {
-            var data = string.Empty;
-            var error = string.Empty;
-            var result = TdxTradeApi.ToBuy(stockCode, number, price, ref data, ref error) == 1;
+            var data = new StringBuilder(_resultCapacity);
+            var error = new StringBuilder(_errorCapacity);
+            var result = TdxTradeApi.ToBuy(stockCode, number, price, data, error) == 1;
 
             return new ApiResult
             {
                 Result = result,
-                Data = data,
-                Error = error
+                Data = data.ToString(),
+                Error = error.ToString().ToString()
             };
         }
 
         public ApiResult Sell(string stockCode, int number, double price)
         {
-            var data = string.Empty;
-            var error = string.Empty;
-            var result = TdxTradeApi.ToSell(stockCode, number, price, ref data, ref error) == 1;
+            var data = new StringBuilder(_resultCapacity);
+            var error = new StringBuilder(_errorCapacity);
+            var result = TdxTradeApi.ToSell(stockCode, number, price, data, error) == 1;
 
             return new ApiResult
             {
                 Result = result,
-                Data = data,
-                Error = error
+                Data = data.ToString(),
+                Error = error.ToString()
             };
         }
 
         public ApiResult Cancel(string stockCode, string authorizeIndex)
         {
-            var data = string.Empty;
-            var error = string.Empty;
-            TdxTradeApi.CancelOrder(stockCode, authorizeIndex, ref data, ref error);
+            var data = new StringBuilder(_resultCapacity);
+            var error = new StringBuilder(_errorCapacity);
+            TdxTradeApi.CancelOrder(stockCode, authorizeIndex, data, error);
             return new ApiResult
             {
-                Result = string.IsNullOrEmpty(error),
-                Data = data,
-                Error = error
+                Result = error.Length == 0,
+                Data = data.ToString(),
+                Error = error.ToString()
             };
         }
 
         public ApiResult QueryAuthroizes()
         {
-            var data = string.Empty;
-            var error = string.Empty;
-            TdxTradeApi.QueryData(1, ref data, ref error);
+            var data = new StringBuilder(_resultCapacity);
+            var error = new StringBuilder(_errorCapacity);
+            TdxTradeApi.QueryData(1, data, error);
             return new ApiResult
             {
-                Result = string.IsNullOrEmpty(error),
-                Data = data,
-                Error = error
+                Result = error.Length == 0,
+                Data = data.ToString(),
+                Error = error.ToString()
             };
         }
 
         public ApiResult QueryHistoryMoney(DateTime startTime, DateTime endTime)
         {
-            var data = string.Empty;
-            var error = string.Empty;
-            TdxTradeApi.QueryHistroyMoney(startTime.ToString(), endTime.ToString(), ref data, ref error);
+            var data = new StringBuilder(_resultCapacity);
+            var error = new StringBuilder(_errorCapacity);
+            TdxTradeApi.QueryHistroyMoney(startTime.ToString(), endTime.ToString(), data, error);
             return new ApiResult
             {
-                Result = string.IsNullOrEmpty(error),
-                Data = data,
-                Error = error
+                Result = error.Length == 0,
+                Data = data.ToString(),
+                Error = error.ToString()
             };
         }
 
         public ApiResult QueryHistoryTrade(DateTime startTime, DateTime endTime)
         {
-            var data = string.Empty;
-            var error = string.Empty;
-            TdxTradeApi.QueryHistroyData(startTime.ToString(), endTime.ToString(), ref data, ref error);
+            var data = new StringBuilder(_resultCapacity);
+            var error = new StringBuilder(_errorCapacity);
+            TdxTradeApi.QueryHistroyData(startTime.ToString(), endTime.ToString(), data, error);
             return new ApiResult
             {
-                Result = string.IsNullOrEmpty(error),
-                Data = data,
-                Error = error
+                Result = error.Length == 0,
+                Data = data.ToString(),
+                Error = error.ToString()
             };
         }
 
         public ApiResult QueryMoney()
         {
-            var data = string.Empty;
-            var error = string.Empty;
-            TdxTradeApi.QueryData(3, ref data, ref error);
+            var data = new StringBuilder(_resultCapacity);
+            var error = new StringBuilder(_errorCapacity);
+            TdxTradeApi.QueryData(3, data, error);
             return new ApiResult
             {
-                Result = string.IsNullOrEmpty(error),
-                Data = data,
-                Error = error
+                Result = error.Length == 0,
+                Data = data.ToString(),
+                Error = error.ToString()
             };
         }
 
         public ApiResult QueryStocks()
         {
-            var data = string.Empty;
-            var error = string.Empty;
-            TdxTradeApi.QueryData(0, ref data, ref error);
+            var data = new StringBuilder(_resultCapacity);
+            var error = new StringBuilder(_errorCapacity);
+            TdxTradeApi.QueryData(0, data, error);
             return new ApiResult
             {
-                Result = string.IsNullOrEmpty(error),
-                Data = data,
-                Error = error
+                Result = error.Length == 0,
+                Data = data.ToString(),
+                Error = error.ToString()
             };
         }
 
         public ApiResult QueryTrades()
         {
-            var data = string.Empty;
-            var error = string.Empty;
-            TdxTradeApi.QueryData(2, ref data, ref error);
+            var data = new StringBuilder(_resultCapacity);
+            var error = new StringBuilder(_errorCapacity);
+            TdxTradeApi.QueryData(2, data, error);
             return new ApiResult
             {
-                Result = string.IsNullOrEmpty(error),
-                Data = data,
-                Error = error
+                Result = error.Length == 0,
+                Data = data.ToString(),
+                Error = error.ToString()
             };
         }
     }

@@ -5,29 +5,45 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LooWooTech.AssetsTrade.Models;
+using System.Diagnostics;
 
 namespace LooWooTech.AssetsTrade.Managers.TradeApi.Tests
 {
     [TestClass()]
     public class TdxTradeServiceTests
     {
-        private TdxTradeService _service = new TdxTradeService();
+        private readonly TdxTradeService Service = new TdxTradeService();
+
+        private MainAccount _mainAccount;
+        private ServiceIP _ip;
+
+        public TdxTradeServiceTests()
+        {
+            _mainAccount = ManagerCore.Instance.MainAccountManager.GetServerMainAccount();
+            _ip = ManagerCore.Instance.ServiceIPManager.GetFastIP(Service.GetType());
+        }
+
+        private void  Login()
+        {
+            Service.Login(_mainAccount, _ip);
+        }
+
         [TestMethod()]
         public void LoginTest()
         {
-            var main = ManagerCore.Instance.MainAccountManager.GetServerMainAccount();
-
-            var serverIp = ManagerCore.Instance.ServiceIPManager.GetFastIP(_service.GetType());
-
-            var result = _service.Login(main, serverIp);
-
-            Assert.AreEqual<bool>(true, result.Result);
+            var result = Service.Login(_mainAccount, _ip);
+            Assert.AreEqual(true, result.Result);
         }
 
         [TestMethod()]
         public void QueryAuthroizesTest()
         {
-            Assert.Fail();
+            Login();
+
+            var result = Service.QueryAuthroizes();
+            Trace.WriteLine(result.Result);
+            Assert.AreEqual(true, result.Result);
         }
     }
 }
