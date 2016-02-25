@@ -61,6 +61,7 @@
     <Compile Include="MainAccount.cs" />
     <Compile Include="MainStock.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServiceIP.cs" />
     <Compile Include="StockTradeSet.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -39,31 +39,31 @@ namespace LooWooTech.AssetsTrade.Models
         /// <summary>
         /// 保证金(可变)
         /// </summary>
-        public float HandMoney { get; set; }
+        public double HandMoney { get; set; }
         /// <summary>
         /// 融资金额
         /// </summary>
-        public float BorrowMoney { get; set; }
+        public double BorrowMoney { get; set; }
         /// <summary>
         /// 可用余额
         /// </summary>
-        public float UseableMoney { get; set; }
+        public double UseableMoney { get; set; }
         /// <summary>
         /// 期初分配金额(划拨进来的总资产-划拨出去的总资产)
         /// </summary>
-        public float FirsthandMoney { get; set; }
+        public double FirsthandMoney { get; set; }
         /// <summary>
         /// 佣金，双边收
         /// </summary>
-        public float Commission { get; set; }
+        public double Commission { get; set; }
         /// <summary>
         /// 印花税，出让方单边收
         /// </summary>
-        public float YinHuaShui { get; set; }
+        public double YinHuaShui { get; set; }
         /// <summary>
         /// 过户费，上海双边收
         /// </summary>
-        public float GuoHuFei { get; set; }
+        public double GuoHuFei { get; set; }
         /// <summary>
         /// 是否最低收一元，不确定不要修改，0表示不是，1表示是
         /// </summary>
@@ -75,15 +75,15 @@ namespace LooWooTech.AssetsTrade.Models
         /// <summary>
         /// 资产交易比例
         /// </summary>
-        public float AssetsTradeScale { get; set; }
+        public double AssetsTradeScale { get; set; }
         /// <summary>
         /// 单支股票持仓比例
         /// </summary>
-        public float HaveScale { get; set; }
+        public double HaveScale { get; set; }
         /// <summary>
         /// 创业板股票持仓比例
         /// </summary>
-        public float StartBusinessScale { get; set; }
+        public double StartBusinessScale { get; set; }
         public int IsLogin { get; set; }
         /// <summary>
         /// 备注
@@ -93,11 +93,11 @@ namespace LooWooTech.AssetsTrade.Models
         /// <summary>
         /// 强平线
         /// </summary>
-        public float QiangPingLine { get; set; }
+        public double QiangPingLine { get; set; }
         /// <summary>
         /// 预警线
         /// </summary>
-        public float YuJingLine { get; set; }
+        public double YuJingLine { get; set; }
         /// <summary>
         /// 是否强平，0不强平，1强平
         /// </summary>
@@ -110,7 +110,7 @@ namespace LooWooTech.AssetsTrade.Models
         public int IsST { get; set; }
         public int IsChuangYeBan { get; set; }
 
-        public float GetShouXuFei(string stockCode,float price, int number)
+        public double GetShouXuFei(string stockCode,double price, int number)
         {
             var result = (price * number) * Commission;
             if (ISLowFiveMoney == 1 && result < 5)
@@ -120,7 +120,7 @@ namespace LooWooTech.AssetsTrade.Models
             return result;
         }
 
-        public float GetYinHuaShui(string stockCode,float price,int number)
+        public double GetYinHuaShui(string stockCode,double price,int number)
         {
             if(stockCode.StartsWith("1"))
             {
@@ -129,7 +129,7 @@ namespace LooWooTech.AssetsTrade.Models
             return price * number * YinHuaShui;
         }
 
-        public float GetGuoHuFei(string stockCode,float price, int number)
+        public double GetGuoHuFei(string stockCode,double price, int number)
         {
             if (stockCode.StartsWith("6"))
             {

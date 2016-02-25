@@ -67,7 +67,7 @@ namespace LooWooTech.AssetsTrade.Models
         /// <summary>
         /// 委托价格
         /// </summary>
-        public float AuthorizePrice { get; set; }
+        public double AuthorizePrice { get; set; }
         /// <summary>
         /// 未报、待报、正报、已报、废单、部成、已成、部撤、已撤(被撤委托)、
         /// 待撤(被撤委托)、未撤(撤单委托)、待撤(撤单委托)、正撤(撤单委托)、
@@ -85,7 +85,7 @@ namespace LooWooTech.AssetsTrade.Models
         /// <summary>
         /// 成交价格
         /// </summary>
-        public float StrikePrice { get; set; }
+        public double StrikePrice { get; set; }
         /// <summary>
         /// 成交数量
         /// </summary>
@@ -101,22 +101,22 @@ namespace LooWooTech.AssetsTrade.Models
         /// <summary>
         /// 子帐户佣金比例
         /// </summary>
-        public float ChildCommission { get; set; }
+        public double ChildCommission { get; set; }
         /// <summary>
         /// 主帐户佣金比例
         /// </summary>
-        public float MainCommission { get; set; }
+        public double MainCommission { get; set; }
         /// <summary>
         /// 主帐户印花税比例
         /// </summary>
-        public float MainYinHuaShui { get; set; }
+        public double MainYinHuaShui { get; set; }
         /// <summary>
         /// 主帐户过户费
         /// </summary>
-        public float MainGuoHuFei { get; set; }
+        public double MainGuoHuFei { get; set; }
         /// <summary>
         /// 资金余额
         /// </summary>
-        public float OverFlowMoney { get; set; }
+        public double OverFlowMoney { get; set; }
     }
 }

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace LooWooTech.AssetsTrade.StockService
 {
-    public partial class Service1 : ServiceBase
+    public partial class Service1 : System.ServiceProcess.ServiceBase
     {
         public Service1()
         {

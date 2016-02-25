@@ -27,5 +27,7 @@ namespace LooWooTech.AssetsTrade.Managers
 
         public DbSet<StockTradeSet> StockTradeSets { get; set; }
 
+        public DbSet<ServiceIP> ServiceIPs { get; set; }
+
     }
 }

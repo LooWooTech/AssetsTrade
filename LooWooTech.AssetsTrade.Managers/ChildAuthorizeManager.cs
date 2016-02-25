@@ -15,16 +15,14 @@ namespace LooWooTech.AssetsTrade.Managers
         /// </summary>
         public List<ChildAuthorize> GetTodayAuthorize()
         {
-            var result = string.Empty;
-            var error = string.Empty;
-            TdxTrade.QueryData(1, ref result, ref error);
-            if (!string.IsNullOrEmpty(error))
+            var result = Core.ServiceManager.QueryAuthroizes();
+            if (!result.Result)
             {
-                throw new Exception(error);
+                throw new Exception("当日委托获取失败\n" + result.Error);
             }
 
             var list = new List<ChildAuthorize>();
-            var rows = result.Split('\n');
+            var rows = result.Data.Split('\n');
             foreach (var row in rows)
             {
                 if (string.IsNullOrEmpty(row)) continue;
@@ -37,25 +35,35 @@ namespace LooWooTech.AssetsTrade.Managers
                     StockName = fields[2],
                     TradeFlag = fields[4] == "买入" ? "1" : "0",
                     AuthorizeState = fields[5],
-                    AuthorizePrice = float.Parse(fields[6]),
+                    AuthorizePrice = double.Parse(fields[6]),
                     AuthorizeCount = int.Parse(fields[7]),
                     AuthorizeIndex = fields[8],
                     StrikeCount = int.Parse(fields[9]),
-                    StrikePrice = float.Parse(fields[11]),
+                    StrikePrice = double.Parse(fields[11]),
                 });
             }
             return list;
         }
 
         /// <summary>
-        /// 获取本地所有委托
+        /// 结算所有未完成的委托
         /// </summary>
-        public List<ChildAuthorize> GetList(int childId, DateTime beginTime)
+        public void CloseAllAuthorize()
         {
             using (var db = GetDbContext())
             {
-                var beginTimeValue = beginTime.ToUnixTime();
-                return db.ChildAuthorizes.Where(e => e.ClientID == childId && e.AuthorizeTimeValue > beginTimeValue).ToList();
+                var startTime = DateTime.Today.AddDays(-1).ToUnixTime();
+                var list = db.ChildAuthorizes.Where(e => e.AuthorizeTimeValue > startTime && e.AuthorizeIndex != "0");
+                foreach (var model in list)
+                {
+                    if ("已成,已撤,部撤,废单".Contains(model.AuthorizeState))
+                    {
+                        continue;
+                    }
+                    //如果有成交量，则是部撤，否则为已撤
+                    model.AuthorizeState = model.StrikeCount > 0 ? "部撤" : "已撤";
+                    Core.TradeManager.UpdateAuthorize(model);
+                }
             }
         }
     }

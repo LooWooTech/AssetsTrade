@@ -20,6 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -56,12 +57,20 @@
   <ItemGroup>
     <Compile Include="ChildAccountManager.cs" />
     <Compile Include="ChildAuthorizeManager.cs" />
+    <Compile Include="ChildStockManager.cs" />
     <Compile Include="DataContext.cs" />
+    <Compile Include="ServiceIPManager.cs" />
+    <Compile Include="MainAccountManager.cs" />
     <Compile Include="ManagerBase.cs" />
     <Compile Include="ManagerCore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TdxTrade.cs" />
+    <Compile Include="TradeApi\ApiResult.cs" />
+    <Compile Include="TradeApi\ITradeService.cs" />
+    <Compile Include="TradeApi\ServiceInvoker.cs" />
+    <Compile Include="TradeApi\TdxTradeApi.cs" />
+    <Compile Include="TradeApi\TdxTradeService.cs" />
     <Compile Include="TradeManager.cs" />
+    <Compile Include="ServiceManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -78,7 +87,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="TdxTrade.dll">
+    <Content Include="TradeApi\TdxTrade.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

@@ -12,7 +12,7 @@ namespace LooWooTech.AssetsTrade.WebApi.Controllers
         /// <summary>
         /// 买入股
         /// </summary>
-        public ActionResult Buy(string stockCode, int number, float price)
+        public ActionResult Buy(string stockCode, int number, double price)
         {
             Core.TradeManager.ToBuy(stockCode, number, price, CurrentUser.ID);
             return SuccessResult();
@@ -21,7 +21,7 @@ namespace LooWooTech.AssetsTrade.WebApi.Controllers
         /// <summary>
         /// 卖出股票
         /// </summary>
-        public ActionResult Sell(string stockCode, int number, float price)
+        public ActionResult Sell(string stockCode, int number, double price)
         {
             Core.TradeManager.ToSell(stockCode, number, price, CurrentUser.ID);
             return SuccessResult();

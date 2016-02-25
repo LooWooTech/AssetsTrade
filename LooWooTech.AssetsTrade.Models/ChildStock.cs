@@ -49,10 +49,10 @@ namespace LooWooTech.AssetsTrade.Models
         /// <summary>
         /// 成本价
         /// </summary>
-        public float PrimeCost { get; set; }
+        public double PrimeCost { get; set; }
         /// <summary>
         /// 市价
         /// </summary>
-        public float CurrentPrice { get; set; }
+        public double CurrentPrice { get; set; }
     }
 }

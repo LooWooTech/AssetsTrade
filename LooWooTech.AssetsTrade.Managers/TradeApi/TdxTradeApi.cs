@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LooWooTech.AssetsTrade.Managers
+namespace LooWooTech.AssetsTrade.Managers.TradeApi
 {
-    internal static class TdxTrade
+    internal static class TdxTradeApi
     {
-        [DllImport("TdxTrade.dll")]
+        [DllImport("TdxTrade.dll", CharSet = CharSet.Ansi)]
         public static extern void SetServer(string szHost, int nPort);
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace LooWooTech.AssetsTrade.Managers
         /// <param name="ErrInfo"></param>
         /// <returns></returns>
         [DllImport("TdxTrade.dll")]
-        public static extern int ToBuy(string sCode, int sNum, float sPrice, ref string Result, ref string ErrInfo);
+        public static extern int ToBuy(string sCode, int sNum, double sPrice, ref string Result, ref string ErrInfo);
         /// <summary>
         /// 下卖单
         /// </summary>
@@ -54,7 +54,7 @@ namespace LooWooTech.AssetsTrade.Managers
         /// <param name="ErrInfo"></param>
         /// <returns></returns>
         [DllImport("TdxTrade.dll")]
-        public static extern int ToSell(string sCode, int sNum, float sPrice, ref string Result, ref string ErrInfo);
+        public static extern int ToSell(string sCode, int sNum, double sPrice, ref string Result, ref string ErrInfo);
         /// <summary>
         /// 撤单指令
         /// </summary>

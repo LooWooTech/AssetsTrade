@@ -27,8 +27,12 @@ namespace LooWooTech.AssetsTrade.Managers
         }
 
         public ChildAccoutManager ChildAccountManager { get; private set; }
+        public ChildStockManager ChildStockManager { get; private set; }
         public ChildAuthorizeManager ChildAuthorizeManager { get; private set; }
         public TradeManager TradeManager { get; private set; }
+        public ServiceIPManager ServiceIPManager { get; private set; }
+        public MainAccountManager MainAccountManager { get; private set; }
+        public ServiceManager ServiceManager { get; private set; }
 
     }
 }

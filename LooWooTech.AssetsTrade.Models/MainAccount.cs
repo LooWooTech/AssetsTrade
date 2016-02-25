@@ -40,11 +40,11 @@ namespace LooWooTech.AssetsTrade.Models
         /// <summary>
         /// 期初资金,银证转账后需更新，资金划转不需更新
         /// </summary>
-        public float InitMoney { get; set; }
+        public double InitMoney { get; set; }
         /// <summary>
         /// 可用余额
         /// </summary>
-        public float UseableMoney { get; set; }
+        public double UseableMoney { get; set; }
         /// <summary>
         /// 上次资金同步时间，银证转帐后
         /// </summary>
@@ -52,15 +52,15 @@ namespace LooWooTech.AssetsTrade.Models
         /// <summary>
         /// 在证券公司开户的手续费率，注意这里必须跟在证券公司开户时一致，在证券公司费率调整后，这里必须同步调整，保持一致
         /// </summary>
-        public float Commission { get; set; }
+        public double Commission { get; set; }
         /// <summary>
         /// 印花税，取系统默认，不允许修改，默认为成交额的千一
         /// </summary>
-        public float YinHuaShui { get; set; }
+        public double YinHuaShui { get; set; }
         /// <summary>
         /// 过户费，取系统默认，不允许修改，默认为成交面额的万六
         /// </summary>
-        public float GuoHuFei { get; set; }
+        public double GuoHuFei { get; set; }
         /// <summary>
         /// 所开户证券公司过户费是否最低收一元，不确定不要修改，0表示不是，1表示是
         /// </summary>
