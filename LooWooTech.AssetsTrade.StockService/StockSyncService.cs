@@ -18,12 +18,12 @@ namespace LooWooTech.AssetsTrade.StockService
 
         protected override int GetInterval()
         {
-            var result = 5;
-            if (int.TryParse(System.Configuration.ConfigurationManager.AppSettings["SyncInterval"], out result))
+            var result = 0;
+            if (!int.TryParse(System.Configuration.ConfigurationManager.AppSettings["SyncInterval"], out result))
             {
-                return result;
+                result = 5;
             }
-            return 5;
+            return ServiceWorkTime.IsWorkingTime ? result : 60;
         }
     }
 }

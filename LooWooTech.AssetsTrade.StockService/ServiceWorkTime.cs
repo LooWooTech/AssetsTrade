@@ -49,6 +49,14 @@ namespace LooWooTech.AssetsTrade.StockService
             }
         }
 
+        public static DateTime RefreshTime
+        {
+            get
+            {
+                return DateTime.Parse(DateTime.Today.ToShortDateString() + " " + ConfigurationManager.AppSettings["RefreshDataTime"]);
+            }
+        }
+
         public static bool IsWorkingTime
         {
             get

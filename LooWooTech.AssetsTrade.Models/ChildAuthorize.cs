@@ -22,6 +22,7 @@ namespace LooWooTech.AssetsTrade.Models
             //0           1       2         3    4    5     6       7           8      9   10  11   12   13         14  15
             //10:26:46    002790  瑞尔特      0   买入 已报  16.580  16000.00    23488   0   0   0   申购  0107874749  0   0
             //13:27:03    000060  中金岭南    1   卖出 已报  11.450  5000.00     47334   0   0   0   买卖  0107874749  0   0
+            //10:12:01\t732520\t司太申购\t0\t买入\t已报\t12.150\t12000.00\t19459\t0\t0\t0\t申购\tA474859797\t1\t1\t\t
             var fields = queryData.Split(new[] { '\t' }, StringSplitOptions.RemoveEmptyEntries);
             return new ChildAuthorize
             {

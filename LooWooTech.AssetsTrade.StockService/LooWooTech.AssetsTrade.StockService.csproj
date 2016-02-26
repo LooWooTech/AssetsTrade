@@ -60,6 +60,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AuthorizeService.cs" />
+    <Compile Include="CloseAccountService.cs" />
+    <Compile Include="RefreshDataService.cs" />
     <Compile Include="ServiceBase.cs" />
     <Compile Include="ProjectInstaller.cs">
       <SubType>Component</SubType>

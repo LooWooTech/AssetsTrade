@@ -52,6 +52,11 @@ namespace LooWooTech.AssetsTrade.Models
         /// 期初分配金额(划拨进来的总资产-划拨出去的总资产)
         /// </summary>
         public double FirsthandMoney { get; set; }
+        
+        /// <summary>
+        /// 可取金额
+        /// </summary>
+        public double AdvisableMoney { get; set; }
         /// <summary>
         /// 佣金，双边收
         /// </summary>

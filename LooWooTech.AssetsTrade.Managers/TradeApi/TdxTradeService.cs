@@ -153,8 +153,8 @@ namespace LooWooTech.AssetsTrade.Managers.TradeApi
 
         public ApiResult QueryTrades()
         {
-            var data = new StringBuilder();
-            var error = new StringBuilder();
+            var data = new StringBuilder(_resultCapacity);
+            var error = new StringBuilder(_errorCapacity);
             TdxTradeApi.QueryData(2, data, error);
             return new ApiResult
             {

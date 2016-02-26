@@ -70,6 +70,7 @@
     <Compile Include="TradeApi\ServiceInvoker.cs" />
     <Compile Include="TradeApi\TdxTradeApi.cs" />
     <Compile Include="TradeApi\TdxTradeService.cs" />
+    <Compile Include="TradeApi\TestTradeService.cs" />
     <Compile Include="TradeManager.cs" />
     <Compile Include="ServiceManager.cs" />
   </ItemGroup>

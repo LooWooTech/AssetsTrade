@@ -43,8 +43,8 @@ namespace LooWooTech.AssetsTrade.Managers
             }
             using (var db = GetDbContext())
             {
-                //0         1       2       3       4       5       6       7            8      9           10  11
-                //600118	中国卫星	100.00	100.00	86.179	31.270	3127.00	-5499.09	-63.81	A474859797	1	1		
+                //0         1       2       3       4       5       6       7         8      9           10  11
+                //"600118\t中国卫星\t100.00\t100.00\t86.179\t30.960\t3096.00\t-5530.06\t-64.17\tA474859797\t1\t1\t\t"
                 foreach (var line in result.Data.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries))
                 {
                     var fields = line.Split('\t');
