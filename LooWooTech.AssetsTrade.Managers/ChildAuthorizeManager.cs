@@ -27,22 +27,17 @@ namespace LooWooTech.AssetsTrade.Managers
             {
                 if (string.IsNullOrEmpty(row)) continue;
 
-                var fields = row.Split(new[] { '\t' }, StringSplitOptions.RemoveEmptyEntries);
-
-                list.Add(new ChildAuthorize
-                {
-                    StockCode = fields[1],
-                    StockName = fields[2],
-                    TradeFlag = fields[4] == "买入" ? "1" : "0",
-                    AuthorizeState = fields[5],
-                    AuthorizePrice = double.Parse(fields[6]),
-                    AuthorizeCount = int.Parse(fields[7]),
-                    AuthorizeIndex = fields[8],
-                    StrikeCount = int.Parse(fields[9]),
-                    StrikePrice = double.Parse(fields[11]),
-                });
+                list.Add(ChildAuthorize.Parse(row));
             }
             return list;
+        }
+
+        public List<ChildAuthorize> GetList(int childId)
+        {
+            using (var db = GetDbContext())
+            {
+                return db.ChildAuthorizes.Where(e => e.ClientID == childId).ToList();
+            }
         }
 
         /// <summary>

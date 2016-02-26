@@ -10,7 +10,10 @@ namespace LooWooTech.AssetsTrade.StockService
     {
         protected override void Dowork()
         {
-            //Core.ChildStockManager
+            if (ServiceWorkTime.IsWorkingTime)
+            {
+                Core.ChildStockManager.SyncPrice();
+            }
         }
 
         protected override int GetInterval()

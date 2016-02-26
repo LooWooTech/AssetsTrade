@@ -116,7 +116,7 @@ namespace LooWooTech.AssetsTrade.Managers
                     MainGuoHuFei = main.GuoHuFei,
                 };
                 //如果调用接口成功
-                if(result.Result)
+                if (result.Result)
                 {
                     //赋值委托编号
                     authorize.AuthorizeIndex = result.Data;
@@ -155,7 +155,7 @@ namespace LooWooTech.AssetsTrade.Managers
                 }
                 var child = db.ChildAccounts.FirstOrDefault(e => e.ChildID == childId);
                 var result = Core.ServiceManager.Cancel(stockCode, authorize.AuthorizeIndex);
-                if(result.Result)
+                if (result.Result)
                 {
                     authorize.AuthorizeState = "待撤";
                     db.SaveChanges();
@@ -166,6 +166,7 @@ namespace LooWooTech.AssetsTrade.Managers
                 }
             }
         }
+
         /// <summary>
         /// 更新委托的状态
         /// </summary>
@@ -256,5 +257,68 @@ namespace LooWooTech.AssetsTrade.Managers
                 db.SaveChanges();
             }
         }
+
+        /// <summary>
+        /// 获取历史资金流水
+        /// </summary>
+        public List<FundFlow> GetHistoryMoney(DateTime startDate, DateTime endDate, int childId)
+        {
+            var result = Core.ServiceManager.QueryHistoryMoney(startDate, endDate);
+            if (result.Result)
+            {
+                var list = new List<FundFlow>();
+                var lines = result.Data.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
+                foreach (var line in lines)
+                {
+                    list.Add(FundFlow.Parse(line));
+                }
+                var childStockCodes = Core.ChildStockManager.GetStockCodes(childId);
+                return list.Where(e => childStockCodes.Contains(e.StockCode)).ToList();
+            }
+            throw new Exception(result.Error);
+        }
+
+        /// <summary>
+        /// 获取历史成交
+        /// </summary>
+        public List<StockTrade> GetHistoryTrades(DateTime startDate, DateTime endDate, int childId)
+        {
+            var result = Core.ServiceManager.QueryHistoryTrade(startDate, endDate);
+            if (result.Result)
+            {
+                var list = new List<StockTrade>();
+                var lines = result.Data.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
+                foreach (var line in lines)
+                {
+                    list.Add(StockTrade.Parse(line));
+                }
+
+                var childStockCodes = Core.ChildStockManager.GetStockCodes(childId);
+                return list.Where(e => childStockCodes.Contains(e.StockCode)).ToList();
+            }
+            throw new Exception(result.Error);
+        }
+
+        /// <summary>
+        /// 获取当日成交
+        /// </summary>
+        public List<StockTrade> GetTodayTrades(int childId)
+        {
+            var result = Core.ServiceManager.QueryTrades();
+            if (result.Result)
+            {
+                var list = new List<StockTrade>();
+                var lines = result.Data.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
+                foreach (var line in lines)
+                {
+                    list.Add(StockTrade.Parse(line));
+                }
+
+                var childStockCodes = Core.ChildStockManager.GetStockCodes(childId);
+                return list.Where(e => childStockCodes.Contains(e.StockCode)).ToList();
+            }
+            throw new Exception(result.Error);
+        }
+
     }
 }

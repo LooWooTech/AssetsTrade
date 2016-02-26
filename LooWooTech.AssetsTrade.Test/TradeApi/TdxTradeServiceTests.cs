@@ -24,7 +24,7 @@ namespace LooWooTech.AssetsTrade.Managers.TradeApi.Tests
             _ip = ManagerCore.Instance.ServiceIPManager.GetFastIP(Service.GetType());
         }
 
-        private void  Login()
+        private void Login()
         {
             Service.Login(_mainAccount, _ip);
         }
@@ -42,7 +42,57 @@ namespace LooWooTech.AssetsTrade.Managers.TradeApi.Tests
             Login();
 
             var result = Service.QueryAuthroizes();
-            Trace.WriteLine(result.Result);
+            Console.WriteLine(result.Result);
+            Assert.AreEqual(true, result.Result);
+        }
+
+        [TestMethod()]
+        public void QueryStocksTest()
+        {
+            Login();
+
+            var result = Service.QueryStocks();
+            Trace.WriteLine(result.Data);
+            Assert.AreEqual(true, result.Result);
+        }
+
+        [TestMethod()]
+        public void QueryMoneyTest()
+        {
+            Login();
+
+            var result = Service.QueryMoney();
+            Trace.WriteLine(result.Data);
+            Assert.AreEqual(true, result.Result);
+        }
+
+        [TestMethod()]
+        public void QueryTradesTest()
+        {
+            Login();
+
+            var result = Service.QueryTrades();
+            Trace.WriteLine(result.Data);
+            Assert.AreEqual(true, result.Result);
+        }
+
+        [TestMethod()]
+        public void QueryHistoryTradeTest()
+        {
+            Login();
+
+            var result = Service.QueryHistoryTrade(DateTime.Today.AddDays(-1), DateTime.Today.AddDays(1));
+            Trace.WriteLine(result.Data);
+            Assert.AreEqual(true, result.Result);
+        }
+
+        [TestMethod()]
+        public void QueryHistoryMoneyTest()
+        {
+            Login();
+
+            var result = Service.QueryHistoryMoney(DateTime.Today.AddDays(-1), DateTime.Today.AddDays(1));
+            Trace.WriteLine(result.Data);
             Assert.AreEqual(true, result.Result);
         }
     }

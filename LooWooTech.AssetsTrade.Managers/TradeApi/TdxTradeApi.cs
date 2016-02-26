@@ -84,7 +84,7 @@ namespace LooWooTech.AssetsTrade.Managers.TradeApi
         /// <param name="Result"></param>
         /// <param name="ErrInfo"></param>
         [DllImport("TdxTrade.dll")]
-        public static extern void QueryHistroyData(string start, string end, StringBuilder Result, StringBuilder ErrInfo);
+        public static extern void QueryHistoryData(string start, string end, StringBuilder Result, StringBuilder ErrInfo);
 
         /// <summary>
         /// 查询资金流水
@@ -94,6 +94,6 @@ namespace LooWooTech.AssetsTrade.Managers.TradeApi
         /// <param name="Result"></param>
         /// <param name="ErrInfo"></param>
         [DllImport("TdxTrade.dll")]
-        public static extern void QueryHistroyMoney(string start, string end, StringBuilder Result, StringBuilder ErrInfo);
+        public static extern void QueryHistoryMoney(string start, string end, StringBuilder Result, StringBuilder ErrInfo);
     }
 }

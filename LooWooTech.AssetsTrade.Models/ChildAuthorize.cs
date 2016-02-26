@@ -16,6 +16,27 @@ namespace LooWooTech.AssetsTrade.Models
     [Table("ChildAuthorize")]
     public class ChildAuthorize
     {
+        public static ChildAuthorize Parse(string queryData)
+        {
+            if (string.IsNullOrEmpty(queryData)) return null;
+            //0           1       2         3    4    5     6       7           8      9   10  11   12   13         14  15
+            //10:26:46    002790  瑞尔特      0   买入 已报  16.580  16000.00    23488   0   0   0   申购  0107874749  0   0
+            //13:27:03    000060  中金岭南    1   卖出 已报  11.450  5000.00     47334   0   0   0   买卖  0107874749  0   0
+            var fields = queryData.Split(new[] { '\t' }, StringSplitOptions.RemoveEmptyEntries);
+            return new ChildAuthorize
+            {
+                StockCode = fields[1],
+                StockName = fields[2],
+                TradeFlag = fields[4] == "买入" ? "1" : "0",
+                AuthorizeState = fields[5],
+                AuthorizePrice = double.Parse(fields[6]),
+                AuthorizeCount = int.Parse(fields[7]),
+                AuthorizeIndex = fields[8],
+                StrikeCount = int.Parse(fields[9]),
+                StrikePrice = double.Parse(fields[11]),
+            };
+        }
+
         [Key]
         [MaxLength(20)]
         public string ID { get; set; }

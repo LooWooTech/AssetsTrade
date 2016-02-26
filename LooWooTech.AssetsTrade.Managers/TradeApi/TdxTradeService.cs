@@ -103,7 +103,7 @@ namespace LooWooTech.AssetsTrade.Managers.TradeApi
         {
             var data = new StringBuilder(_resultCapacity);
             var error = new StringBuilder(_errorCapacity);
-            TdxTradeApi.QueryHistroyMoney(startTime.ToString(), endTime.ToString(), data, error);
+            TdxTradeApi.QueryHistoryMoney(startTime.ToString("yyyyMMdd"), endTime.ToString("yyyyMMdd"), data, error);
             return new ApiResult
             {
                 Result = error.Length == 0,
@@ -116,7 +116,7 @@ namespace LooWooTech.AssetsTrade.Managers.TradeApi
         {
             var data = new StringBuilder(_resultCapacity);
             var error = new StringBuilder(_errorCapacity);
-            TdxTradeApi.QueryHistroyData(startTime.ToString(), endTime.ToString(), data, error);
+            TdxTradeApi.QueryHistoryData(startTime.ToString("yyyyMMdd"), endTime.ToString("yyyyMMdd"), data, error);
             return new ApiResult
             {
                 Result = error.Length == 0,
@@ -153,8 +153,8 @@ namespace LooWooTech.AssetsTrade.Managers.TradeApi
 
         public ApiResult QueryTrades()
         {
-            var data = new StringBuilder(_resultCapacity);
-            var error = new StringBuilder(_errorCapacity);
+            var data = new StringBuilder();
+            var error = new StringBuilder();
             TdxTradeApi.QueryData(2, data, error);
             return new ApiResult
             {
