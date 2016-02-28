@@ -32,33 +32,29 @@ namespace LooWooTech.AssetsTrade.WebApi
             return data.XmlSerialize();
         }
 
-        protected ActionResult ContentResult<T>(T data)
+        private ActionResult ContentResult<T>(T data)
         {
             return new ContentResult { Content = GetSerializedContent(data), ContentEncoding = System.Text.Encoding.UTF8, ContentType = "text/" + _serializeType };
         }
 
         protected ActionResult SuccessResult<T>(T data) where T : class
         {
-            if (data == null)
-            {
-                return ContentResult(new SuccessResult { Code = 1 });
-            }
-            return ContentResult(data);
+            return ContentResult(new ApiResult { Code = 1, Data = data });
         }
 
         protected ActionResult SuccessResult()
         {
-            return ContentResult(new SuccessResult { Code = 1 });
+            return ContentResult(new ApiResult { Code = 1 });
         }
 
         protected ActionResult ErrorResult(string message)
         {
-            return ContentResult(new ErrorResult { Code = 0, Message = message });
+            return ContentResult(new ApiResult { Code = 0, Message = message });
         }
 
         protected ActionResult ErrorResult(Exception ex)
         {
-            return ContentResult(new ErrorResult { Code = 0, Message = ex.Message, StackTrace = ex.StackTrace });
+            return ContentResult(new ApiResult { Code = 0, Message = ex.Message, StackTrace = ex.StackTrace });
         }
 
         private int GetStatusCode(Exception ex)
@@ -99,7 +95,7 @@ namespace LooWooTech.AssetsTrade.WebApi
             filterContext.HttpContext.Response.TrySkipIisCustomErrors = true;
             var ex = GetException(filterContext.Exception);
             //如果是吊用接口时网络失败
-            if(filterContext.Exception.Message.Contains("网络连接失败"))
+            if (filterContext.Exception.Message.Contains("网络连接失败"))
             {
 
             }

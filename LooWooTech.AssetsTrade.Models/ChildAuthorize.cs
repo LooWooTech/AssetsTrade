@@ -44,7 +44,7 @@ namespace LooWooTech.AssetsTrade.Models
         /// <summary>
         /// 子帐号ID，外键，与子帐号表中的主键关联
         /// </summary>
-        public int ClientID { get; set; }
+        public int ChildID { get; set; }
         /// <summary>
         /// 委托时间
         /// </summary>

@@ -65,7 +65,7 @@ namespace LooWooTech.AssetsTrade.WebApi.Controllers
             var startDate = start.HasValue ? start.Value : DateTime.Today.AddDays(-1);
             var endDate = end.HasValue ? end.Value : DateTime.Today.AddDays(1);
 
-            var list = Core.TradeManager.GetHistoryTrades(startDate, endDate, CurrentUser.ID);
+            var list = Core.TradeManager.GetHistoryMoney(startDate, endDate, CurrentUser.ID);
             return SuccessResult(list);
         }
     }

@@ -57,7 +57,6 @@
     <Compile Include="ChildAccount.cs" />
     <Compile Include="ChildAuthorize.cs" />
     <Compile Include="ChildStock.cs" />
-    <Compile Include="ErrorResult.cs" />
     <Compile Include="MainAccount.cs" />
     <Compile Include="MainStock.cs" />
     <Compile Include="FundFlow.cs" />

@@ -22,8 +22,11 @@ namespace LooWooTech.AssetsTrade.StockService
             }
             if (DateTime.Now.Hour == ServiceWorkTime.CloseAccountTime.Hour && DateTime.Now.Minute == ServiceWorkTime.CloseAccountTime.Minute)
             {
+                //对比交易是否正确
                 //结算所有委托
                 Core.ChildAuthorizeManager.CloseAllAuthorize();
+                //余额->可取金额
+                //删除持仓为0的记录
                 _hasCloseAccount = true;
             }
         }

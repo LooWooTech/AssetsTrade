@@ -34,22 +34,22 @@ namespace LooWooTech.AssetsTrade.Managers
 
         public ApiResult QueryStocks()
         {
-            return Invoker.InvokeMethod("QueryStock", null);
+            return Invoker.InvokeMethod("QueryStocks", null);
         }
 
         public ApiResult QueryAuthroizes()
         {
-            return Invoker.InvokeMethod("QueryStock", null);
+            return Invoker.InvokeMethod("QueryAuthroizes", null);
         }
 
         public ApiResult QueryTrades()
         {
-            return Invoker.InvokeMethod("QueryStock", null);
+            return Invoker.InvokeMethod("QueryTrades", null);
         }
 
         public ApiResult QueryMoney()
         {
-            return Invoker.InvokeMethod("QueryStock", null);
+            return Invoker.InvokeMethod("QueryMoney", null);
         }
 
         public ApiResult QueryHistoryTrade(DateTime startTime, DateTime endTime)

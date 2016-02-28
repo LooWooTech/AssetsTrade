@@ -60,6 +60,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Controllers\QueryControllerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TradeApi\TdxTradeServiceTests.cs" />
   </ItemGroup>
@@ -71,6 +72,10 @@
     <ProjectReference Include="..\LooWooTech.AssetsTrade.Models\LooWooTech.AssetsTrade.Models.csproj">
       <Project>{4E833563-9BFC-4288-88EC-AB1D8DA54BF2}</Project>
       <Name>LooWooTech.AssetsTrade.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LooWooTech.AssetsTrade.WebApi\LooWooTech.AssetsTrade.WebApi.csproj">
+      <Project>{5D7ACCBA-8D03-4235-951D-B72F655951E6}</Project>
+      <Name>LooWooTech.AssetsTrade.WebApi</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

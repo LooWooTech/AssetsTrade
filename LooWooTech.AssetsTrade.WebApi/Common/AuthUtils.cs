@@ -17,7 +17,7 @@ namespace LooWooTech.AssetsTrade.WebApi
 
         public static string GetAccessToken(this HttpContextBase context, string userId, string username)
         {
-            var ticket = new FormsAuthenticationTicket(userId + "|" + username, true, 60);
+            var ticket = new FormsAuthenticationTicket(1, userId + "|" + username, DateTime.Now, DateTime.Now.AddDays(1), true, "user_token");
             var token = FormsAuthentication.Encrypt(ticket);
             UpdateQueryTime(userId);
             return token;
@@ -39,7 +39,7 @@ namespace LooWooTech.AssetsTrade.WebApi
 
         public static UserIdentity GetCurrentUser(this HttpContextBase context)
         {
-            var token = context.Request.Headers["token"];
+            var token = context.Request.Headers["token"] ?? context.Request["token"];
             if (!string.IsNullOrEmpty(token))
             {
                 try

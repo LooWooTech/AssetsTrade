@@ -36,7 +36,7 @@ namespace LooWooTech.AssetsTrade.Managers
         {
             using (var db = GetDbContext())
             {
-                return db.ChildAuthorizes.Where(e => e.ClientID == childId).ToList();
+                return db.ChildAuthorizes.Where(e => e.ChildID == childId).ToList();
             }
         }
 
@@ -56,7 +56,7 @@ namespace LooWooTech.AssetsTrade.Managers
                         continue;
                     }
                     //如果有成交量，则是部撤，否则为已撤
-                    model.AuthorizeState = model.StrikeCount > 0 ? "部撤" : "已撤";
+                    model.AuthorizeState = model.StrikeCount > 0 ? "部废" : "废单";
                     Core.TradeManager.UpdateAuthorize(model);
                 }
             }

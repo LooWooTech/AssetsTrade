@@ -107,9 +107,11 @@
   <ItemGroup>
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Models\ApiResult.cs" />
     <Compile Include="Common\AuthenticateModule.cs" />
     <Compile Include="Common\AuthUtils.cs" />
     <Compile Include="Common\ControllerBase.cs" />
+    <Compile Include="Models\LoginResult.cs" />
     <Compile Include="Common\UserAuthorizeAttribute.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -119,7 +121,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Common\UserIdentity.cs" />
+    <Compile Include="Models\UserIdentity.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\iplist.txt" />

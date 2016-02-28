@@ -5,23 +5,18 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace LooWooTech.AssetsTrade.Models
+namespace LooWooTech.AssetsTrade.WebApi
 {
-    [Serializable]
-    public class ErrorResult
+    public class ApiResult
     {
-        public ErrorResult() { }
+        public ApiResult() { }
 
         public int Code { get; set; }
+
+        public object Data { get; set; }
 
         public string Message { get; set; }
 
         public string StackTrace { get; set; }
-    }
-
-    [Serializable]
-    public class SuccessResult
-    {
-        public int Code { get; set; }
     }
 }

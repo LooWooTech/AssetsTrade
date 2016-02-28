@@ -44,7 +44,7 @@ namespace LooWooTech.AssetsTrade.Managers
                     AuthorizeIndex = "0",
                     AuthorizeCount = number,
                     AuthorizePrice = price,
-                    ClientID = child.ChildID,
+                    ChildID = child.ChildID,
                     ChildCommission = child.Commission,
                     StockCode = stockCode,
                     StockName = stockCode,//委托创建时无法获得股票名称
@@ -107,7 +107,7 @@ namespace LooWooTech.AssetsTrade.Managers
                     AuthorizeState = "待报",
                     AuthorizeTime = DateTime.Now,
                     ChildCommission = child.Commission,
-                    ClientID = child.ChildID,
+                    ChildID = child.ChildID,
                     StockName = stockCode,
                     TradeFlag = "0",
                     OverFlowMoney = child.UseableMoney,
@@ -144,7 +144,7 @@ namespace LooWooTech.AssetsTrade.Managers
         {
             using (var db = GetDbContext())
             {
-                var authorize = db.ChildAuthorizes.FirstOrDefault(e => e.AuthorizeIndex == authorizeIndex && e.ClientID == childId);
+                var authorize = db.ChildAuthorizes.FirstOrDefault(e => e.AuthorizeIndex == authorizeIndex && e.ChildID == childId);
                 if (authorize == null)
                 {
                     throw new ArgumentException("没有找到该委托");
@@ -184,8 +184,8 @@ namespace LooWooTech.AssetsTrade.Managers
                 }
 
                 var isBuy = entity.TradeFlag == "1";
-                var child = db.ChildAccounts.FirstOrDefault(e => e.ChildID == entity.ClientID);
-                var stock = db.ChildStocks.FirstOrDefault(e => e.StockCode == model.StockCode && e.ChildID == entity.ClientID);
+                var child = db.ChildAccounts.FirstOrDefault(e => e.ChildID == entity.ChildID);
+                var stock = db.ChildStocks.FirstOrDefault(e => e.StockCode == model.StockCode && e.ChildID == entity.ChildID);
                 //本次成交量变化
                 if ("已成,部撤".Contains(model.AuthorizeState))
                 {
@@ -206,7 +206,7 @@ namespace LooWooTech.AssetsTrade.Managers
                             stock = new ChildStock
                             {
                                 AllCount = model.StrikeCount,
-                                ChildID = entity.ClientID,
+                                ChildID = entity.ChildID,
                                 CurrentPrice = model.StrikePrice,
                                 LastTime = DateTime.Now.ToUnixTime(),
                                 PrimeCost = model.StrikePrice,

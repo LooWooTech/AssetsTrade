@@ -176,7 +176,7 @@ namespace LooWooTech.AssetsTrade.Common
         public static T HGetOrSet<T>(this LocalCacheService cache, string hashId, string key, Func<T> getValueFunc)
         {
             var val = cache.HGet<T>(hashId, key);
-            if (val == null)
+            if (val.Equals(default(T)))
             {
                 val = getValueFunc();
                 cache.HSet(hashId, key, val);
