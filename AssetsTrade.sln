@@ -15,6 +15,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LooWooTech.AssetsTrade.Stoc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LooWooTech.AssetsTrade.Test", "LooWooTech.AssetsTrade.Test\LooWooTech.AssetsTrade.Test.csproj", "{1A6DFEF3-AB89-4FEB-B2E4-8CA2A71B27C1}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "libs", "libs", "{D8771496-DAB7-4811-A001-D51E8B13480F}"
+	ProjectSection(SolutionItems) = preProject
+		libs\mfc100.bat = libs\mfc100.bat
+		libs\mfc100.dll = libs\mfc100.dll
+		libs\TdxTrade.dll = libs\TdxTrade.dll
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

@@ -61,7 +61,7 @@ namespace LooWooTech.AssetsTrade.Managers
         /// <summary>
         /// 同步股票市价
         /// </summary>
-        public void SyncPrice()
+        public void SyncStocks()
         {
             var list = QueryStocks();
             if (list.Count == 0) return;

@@ -12,7 +12,7 @@ namespace LooWooTech.AssetsTrade.StockService
         {
             if (AppSettings.IsWorkingTime)
             {
-                Core.StockManager.SyncPrice();
+                Core.StockManager.SyncStocks();
             }
         }
 

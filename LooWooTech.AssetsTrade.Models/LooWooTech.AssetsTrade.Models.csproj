@@ -53,7 +53,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AuthorizeState.cs" />
     <Compile Include="ChildAccount.cs" />
     <Compile Include="ChildAuthorize.cs" />
     <Compile Include="ChildStock.cs" />

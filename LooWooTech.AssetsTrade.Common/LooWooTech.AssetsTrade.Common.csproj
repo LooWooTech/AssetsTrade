@@ -53,6 +53,7 @@
     <Compile Include="EncryptExtensions.cs" />
     <Compile Include="JsonSerializeExtension.cs" />
     <Compile Include="LocalCacheService.cs" />
+    <Compile Include="LogHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="XmlSerializeExtension.cs" />
   </ItemGroup>

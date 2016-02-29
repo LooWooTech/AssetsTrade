@@ -1,4 +1,5 @@
-﻿using LooWooTech.AssetsTrade.Managers;
+﻿using LooWooTech.AssetsTrade.Common;
+using LooWooTech.AssetsTrade.Managers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,7 +29,14 @@ namespace LooWooTech.AssetsTrade.StockService
                     {
                         break;
                     }
-                    Dowork();
+                    try
+                    {
+                        Dowork();
+                    }
+                    catch (Exception ex)
+                    {
+                        LogHelper.WriteLog(ex);
+                    }
                     //如果不是工作时间，线程间隔为1分钟，工作时间为1秒钟
                     Thread.Sleep(GetInterval() * 1000);
                 }
