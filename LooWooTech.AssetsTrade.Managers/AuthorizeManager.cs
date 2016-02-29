@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace LooWooTech.AssetsTrade.Managers
 {
-    public class ChildAuthorizeManager : ManagerBase
+    public class AuthorizeManager : ManagerBase
     {
         /// <summary>
         /// 通过接口获取“当日委托”列表

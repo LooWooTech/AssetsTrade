@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace LooWooTech.AssetsTrade.StockService
 {
-    public class ServiceWorkTime
+    public class AppSettings
     {
         public static DateTime AMStartTime
         {
@@ -63,6 +63,24 @@ namespace LooWooTech.AssetsTrade.StockService
             {
                 var now = DateTime.Now;
                 return !(now < AMStartTime || (now > AMStopTime && now < PMStartTime) || now > PMStopTime);
+            }
+        }
+
+        public static string MainAccountID
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["MainAccountID"];
+            }
+        }
+
+        public static int SyncInterval
+        {
+            get
+            {
+                var interval = 0;
+                int.TryParse(ConfigurationManager.AppSettings["SyncInterval"], out interval);
+                return interval;
             }
         }
     }

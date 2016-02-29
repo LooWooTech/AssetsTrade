@@ -14,12 +14,12 @@ namespace LooWooTech.AssetsTrade.StockService
 
         protected override int GetInterval()
         {
-            return ServiceWorkTime.IsWorkingTime ? 1 : 120;
+            return AppSettings.IsWorkingTime ? 1 : 120;
         }
 
         protected override void Dowork()
         {
-            var list = Core.ChildAuthorizeManager.GetTodayAuthorize();
+            var list = Core.AuthorizeManager.GetTodayAuthorize();
             //更新委托
             foreach (var item in list)
             {

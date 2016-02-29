@@ -56,12 +56,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ChildAccountManager.cs" />
-    <Compile Include="ChildAuthorizeManager.cs" />
-    <Compile Include="ChildStockManager.cs" />
+    <Compile Include="AccountManager.cs" />
+    <Compile Include="AuthorizeManager.cs" />
+    <Compile Include="StockManager.cs" />
     <Compile Include="DataContext.cs" />
-    <Compile Include="ServiceIPManager.cs" />
-    <Compile Include="MainAccountManager.cs" />
+    <Compile Include="IPManager.cs" />
     <Compile Include="ManagerBase.cs" />
     <Compile Include="ManagerCore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

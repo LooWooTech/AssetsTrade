@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace LooWooTech.AssetsTrade.Managers
 {
-    public class ServiceIPManager : ManagerBase
+    public class IPManager : ManagerBase
     {
         private static DateTime _lastUpdateTime = DateTime.MinValue;
         private static readonly List<ServiceIP> IPList = new List<ServiceIP>();

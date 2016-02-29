@@ -31,8 +31,8 @@ namespace LooWooTech.AssetsTrade.Managers.TradeApi
 
         private ApiResult InvokeApi(ITradeService service, string method, object[] arguments)
         {
-            var serviceIp = ManagerCore.Instance.ServiceIPManager.GetFastIP(service.GetType());
-            var mainAccount = ManagerCore.Instance.MainAccountManager.GetServerMainAccount();
+            var serviceIp = ManagerCore.Instance.IPManager.GetFastIP(service.GetType());
+            var mainAccount = ManagerCore.Instance.AccountManager.GetServerMainAccount();
             service.Login(mainAccount, serviceIp);
 
             var result = (ApiResult)service.GetType().InvokeMember(method, System.Reflection.BindingFlags.InvokeMethod, null, service, arguments);

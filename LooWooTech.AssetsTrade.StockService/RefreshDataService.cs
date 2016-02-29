@@ -14,23 +14,22 @@ namespace LooWooTech.AssetsTrade.StockService
         {
             if (_hasRefreshed)
             {
-                if (DateTime.Now.Minute != ServiceWorkTime.RefreshTime.Minute)
+                if (DateTime.Now.Minute != AppSettings.RefreshTime.Minute)
                 {
                     _hasRefreshed = false;
                 }
                 return;
             }
-            if (DateTime.Now.Hour == ServiceWorkTime.RefreshTime.Hour && DateTime.Now.Minute == ServiceWorkTime.RefreshTime.Minute)
+            if (DateTime.Now.Hour == AppSettings.RefreshTime.Hour && DateTime.Now.Minute == AppSettings.RefreshTime.Minute)
             {
-                //怎么刷新数据？
-
+                Core.AccountManager.UpdateChildAccountMoneyAndStocks(AppSettings.MainAccountID);
                 _hasRefreshed = true;
             }
         }
 
         protected override int GetInterval()
         {
-            return ServiceWorkTime.IsWorkingTime ? 1200 : 30;
+            return AppSettings.IsWorkingTime ? 1200 : 30;
         }
     }
 }

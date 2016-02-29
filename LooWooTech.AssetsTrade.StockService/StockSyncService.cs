@@ -10,20 +10,17 @@ namespace LooWooTech.AssetsTrade.StockService
     {
         protected override void Dowork()
         {
-            if (ServiceWorkTime.IsWorkingTime)
+            if (AppSettings.IsWorkingTime)
             {
-                Core.ChildStockManager.SyncPrice();
+                Core.StockManager.SyncPrice();
             }
         }
 
         protected override int GetInterval()
         {
-            var result = 0;
-            if (!int.TryParse(System.Configuration.ConfigurationManager.AppSettings["SyncInterval"], out result))
-            {
-                result = 5;
-            }
-            return ServiceWorkTime.IsWorkingTime ? result : 60;
+            var result = AppSettings.SyncInterval == 0 ? 5 : AppSettings.SyncInterval;
+
+            return AppSettings.IsWorkingTime ? result : 60;
         }
     }
 }

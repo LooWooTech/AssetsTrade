@@ -35,7 +35,7 @@ namespace LooWooTech.AssetsTrade.Managers
                     throw new Exception("该股票禁止购买");
                 }
 
-                var main = Core.MainAccountManager.GetServerMainAccount();
+                var main = Core.AccountManager.GetServerMainAccount();
                 //调用接口购买
                 var result = Core.ServiceManager.Buy(stockCode, number, price);
                 var authorize = new ChildAuthorize
@@ -93,7 +93,7 @@ namespace LooWooTech.AssetsTrade.Managers
                 {
                     throw new ArgumentException("没有足够的股票可以卖出");
                 }
-                var main = Core.MainAccountManager.GetServerMainAccount();
+                var main = Core.AccountManager.GetServerMainAccount();
                 //调用卖出接口 
                 var result = Core.ServiceManager.Sell(stockCode, number, price);
                 //声明一个新委托
@@ -176,7 +176,7 @@ namespace LooWooTech.AssetsTrade.Managers
             {
                 var entity = db.ChildAuthorizes.FirstOrDefault(e => e.AuthorizeIndex == model.AuthorizeIndex);
                 if (entity == null) return;
-                var endStatus = "已成,已撤,部撤,废单";
+                var endStatus = "已成,已撤,部撤,部废,废单";
                 //如果状态不变且处于终结状态，则说明是当前状态已处理过的委托
                 if (entity.AuthorizeState == model.AuthorizeState && endStatus.Contains(model.AuthorizeState))
                 {
@@ -186,8 +186,8 @@ namespace LooWooTech.AssetsTrade.Managers
                 var isBuy = entity.TradeFlag == "1";
                 var child = db.ChildAccounts.FirstOrDefault(e => e.ChildID == entity.ChildID);
                 var stock = db.ChildStocks.FirstOrDefault(e => e.StockCode == model.StockCode && e.ChildID == entity.ChildID);
-                //本次成交量变化
-                if ("已成,部撤".Contains(model.AuthorizeState))
+                //有成交量，先结算成交量
+                if ("已成,部撤,部废".Contains(model.AuthorizeState))
                 {
                     var shouxufei = child.GetShouXuFei(model.StockCode, model.StrikePrice, model.StrikeCount);
                     var guohufei = child.GetGuoHuFei(model.StockCode, model.StrikePrice, model.StrikeCount);
@@ -228,12 +228,12 @@ namespace LooWooTech.AssetsTrade.Managers
                         stock.UseableCount -= model.StrikeCount;
                     }
                 }
-                if ("废单,已撤,部撤".Contains(model.AuthorizeState))
+                //有废单或撤单，撤销相关资产
+                if ("废单,已撤,部撤,部废".Contains(model.AuthorizeState))
                 {
-                    //如果是撤单
+                    //如果是撤单，更新撤单数量字段
                     if (model.AuthorizeState.Contains("撤"))
                     {
-                        //更新撤单数量
                         entity.UndoCount = model.AuthorizeCount - model.StrikeCount;
                     }
                     if (isBuy)
@@ -244,6 +244,7 @@ namespace LooWooTech.AssetsTrade.Managers
                     }
                     else
                     {
+                        //更新持仓数量
                         stock.AllCount += model.StrikeCount;
                         stock.UseableCount += model.StrikeCount;
                     }
@@ -272,7 +273,7 @@ namespace LooWooTech.AssetsTrade.Managers
                 {
                     list.Add(FundFlow.Parse(line));
                 }
-                var childStockCodes = Core.ChildStockManager.GetStockCodes(childId);
+                var childStockCodes = Core.StockManager.GetStockCodes(childId);
                 return list.Where(e => childStockCodes.Contains(e.StockCode)).ToList();
             }
             throw new Exception(result.Error);
@@ -293,7 +294,7 @@ namespace LooWooTech.AssetsTrade.Managers
                     list.Add(StockTrade.Parse(line));
                 }
 
-                var childStockCodes = Core.ChildStockManager.GetStockCodes(childId);
+                var childStockCodes = Core.StockManager.GetStockCodes(childId);
                 return list.Where(e => childStockCodes.Contains(e.StockCode)).ToList();
             }
             throw new Exception(result.Error);
@@ -314,7 +315,7 @@ namespace LooWooTech.AssetsTrade.Managers
                     list.Add(StockTrade.Parse(line));
                 }
 
-                var childStockCodes = Core.ChildStockManager.GetStockCodes(childId);
+                var childStockCodes = Core.StockManager.GetStockCodes(childId);
                 return list.Where(e => childStockCodes.Contains(e.StockCode)).ToList();
             }
             throw new Exception(result.Error);

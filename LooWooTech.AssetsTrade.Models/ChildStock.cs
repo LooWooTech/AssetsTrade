@@ -14,6 +14,21 @@ namespace LooWooTech.AssetsTrade.Models
     [Table("ChildStock")]
     public class ChildStock
     {
+        public static ChildStock Parse(string queryData)
+        {
+            //0         1       2       3       4       5       6       7         8      9           10  11
+            //"600118\t中国卫星\t100.00\t100.00\t86.179\t30.960\t3096.00\t-5530.06\t-64.17\tA474859797\t1\t1\t\t"
+            var fields = queryData.Split('\t');
+            return new ChildStock
+            {
+                StockCode = fields[0],
+                StockName = fields[1],
+                AllCount = int.Parse(fields[2]),
+                UseableCount = int.Parse(fields[3]),
+                PrimeCost = double.Parse(fields[4]),
+                CurrentPrice = double.Parse(fields[5]),
+            };
+        }
         [Key]
         public string ID { get; set; }
         /// <summary>

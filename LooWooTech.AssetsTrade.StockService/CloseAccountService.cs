@@ -14,19 +14,16 @@ namespace LooWooTech.AssetsTrade.StockService
         {
             if(_hasCloseAccount)
             {
-                if(DateTime.Now.Minute != ServiceWorkTime.CloseAccountTime.Minute)
+                if(DateTime.Now.Minute != AppSettings.CloseAccountTime.Minute)
                 {
                     _hasCloseAccount = false;
                 }
                 return;
             }
-            if (DateTime.Now.Hour == ServiceWorkTime.CloseAccountTime.Hour && DateTime.Now.Minute == ServiceWorkTime.CloseAccountTime.Minute)
+            if (DateTime.Now.Hour == AppSettings.CloseAccountTime.Hour && DateTime.Now.Minute == AppSettings.CloseAccountTime.Minute)
             {
-                //对比交易是否正确
                 //结算所有委托
-                Core.ChildAuthorizeManager.CloseAllAuthorize();
-                //余额->可取金额
-                //删除持仓为0的记录
+                Core.AuthorizeManager.CloseAllAuthorize();
                 _hasCloseAccount = true;
             }
         }

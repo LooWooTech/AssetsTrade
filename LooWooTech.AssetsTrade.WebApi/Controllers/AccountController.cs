@@ -12,7 +12,7 @@ namespace LooWooTech.AssetsTrade.WebApi.Controllers
         [UserAuthorize(Disabled = true)]
         public ActionResult Login(string username, string password)
         {
-            var account = Core.ChildAccountManager.GetAccount(username, password);
+            var account = Core.AccountManager.GetChildAccount(username, password);
             if (account != null)
             {
                 var token = HttpContext.GetAccessToken(account.ChildID.ToString(), account.ChildName);
@@ -36,7 +36,7 @@ namespace LooWooTech.AssetsTrade.WebApi.Controllers
             {
                 throw new HttpException(401, "没有权限修改密码");
             }
-            Core.ChildAccountManager.UpdatePassword(username, oldPassword, newPassword);
+            Core.AccountManager.UpdateChildAccountPassword(username, oldPassword, newPassword);
             return SuccessResult();
         }
 

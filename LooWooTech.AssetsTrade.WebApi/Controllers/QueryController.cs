@@ -13,7 +13,7 @@ namespace LooWooTech.AssetsTrade.WebApi.Controllers
         /// </summary>
         public ActionResult Stocks()
         {
-            var list = Core.ChildStockManager.GetList(CurrentUser.ID);
+            var list = Core.StockManager.GetChildStocks(CurrentUser.ID);
             return SuccessResult(list);
         }
 
@@ -22,7 +22,7 @@ namespace LooWooTech.AssetsTrade.WebApi.Controllers
         /// </summary>
         public ActionResult Authorizes()
         {
-            var list = Core.ChildAuthorizeManager.GetList(CurrentUser.ID);
+            var list = Core.AuthorizeManager.GetList(CurrentUser.ID);
             return SuccessResult(list);
         }
 
@@ -40,7 +40,7 @@ namespace LooWooTech.AssetsTrade.WebApi.Controllers
         /// </summary>
         public ActionResult CancelOrders()
         {
-            var list = Core.ChildAuthorizeManager.GetList(CurrentUser.ID);
+            var list = Core.AuthorizeManager.GetList(CurrentUser.ID);
             return SuccessResult(list.Where(e => e.AuthorizeState.Contains("撤")));
         }
 

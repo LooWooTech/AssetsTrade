@@ -20,8 +20,8 @@ namespace LooWooTech.AssetsTrade.Managers.TradeApi.Tests
 
         public TdxTradeServiceTests()
         {
-            _mainAccount = ManagerCore.Instance.MainAccountManager.GetServerMainAccount();
-            _ip = ManagerCore.Instance.ServiceIPManager.GetFastIP(Service.GetType());
+            _mainAccount = ManagerCore.Instance.AccountManager.GetServerMainAccount();
+            _ip = ManagerCore.Instance.IPManager.GetFastIP(Service.GetType());
         }
 
         private void Login()
