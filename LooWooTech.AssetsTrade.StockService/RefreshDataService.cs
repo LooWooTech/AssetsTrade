@@ -22,7 +22,9 @@ namespace LooWooTech.AssetsTrade.StockService
             }
             if (DateTime.Now.Hour == AppSettings.RefreshTime.Hour && DateTime.Now.Minute == AppSettings.RefreshTime.Minute)
             {
+                LogWriter.Info("开始结算用户资产");
                 Core.AccountManager.UpdateChildAccountMoneyAndStocks(AppSettings.MainAccountID);
+                LogWriter.Success("结算完毕");
                 _hasRefreshed = true;
             }
         }

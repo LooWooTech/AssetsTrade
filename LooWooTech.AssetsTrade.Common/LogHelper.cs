@@ -11,9 +11,6 @@ namespace LooWooTech.AssetsTrade.Common
     {
         public static void WriteLog(Exception ex)
         {
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine(ex.Message);
-            Console.ForegroundColor = ConsoleColor.White;
             try
             {
                 var logPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logs");

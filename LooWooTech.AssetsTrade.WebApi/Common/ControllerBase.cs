@@ -94,12 +94,8 @@ namespace LooWooTech.AssetsTrade.WebApi
             }
             filterContext.HttpContext.Response.TrySkipIisCustomErrors = true;
             var ex = GetException(filterContext.Exception);
-            //如果是吊用接口时网络失败
-            if (filterContext.Exception.Message.Contains("网络连接失败"))
-            {
-
-            }
             filterContext.Result = ErrorResult(ex);
+            LogHelper.WriteLog(ex);
         }
     }
 }

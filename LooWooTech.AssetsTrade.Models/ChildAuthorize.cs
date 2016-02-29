@@ -31,9 +31,9 @@ namespace LooWooTech.AssetsTrade.Models
                 TradeFlag = fields[3],
                 AuthorizeState = fields[5],
                 AuthorizePrice = double.Parse(fields[6]),
-                AuthorizeCount = int.Parse(fields[7]),
+                AuthorizeCount = (int)double.Parse(fields[7]),
                 AuthorizeIndex = fields[8],
-                StrikeCount = int.Parse(fields[9]),
+                StrikeCount = (int)double.Parse(fields[9]),
                 StrikePrice = double.Parse(fields[11]),
             };
         }

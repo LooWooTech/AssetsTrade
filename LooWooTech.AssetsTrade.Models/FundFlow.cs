@@ -32,7 +32,7 @@ namespace LooWooTech.AssetsTrade.Models
                 StockName = fields[9],
                 TradeFlag = fields[11],
                 StrikePrice = double.Parse(fields[12]),
-                StrikeCount = int.Parse(fields[13]),
+                StrikeCount = (int)double.Parse(fields[13]),
                 Memo = fields[14],
                 Commission = double.Parse(fields[15]),
                 YinHuaShui = double.Parse(fields[16]),

@@ -33,7 +33,7 @@ namespace LooWooTech.AssetsTrade.Models
                     StockName = fields[1],
                     TradeFlag = fields[3],
                     StrikePrice = double.Parse(fields[4]),
-                    StrikeCount = int.Parse(fields[5]),
+                    StrikeCount = (int)double.Parse(fields[5]),
 
                     TradeID = fields[7],
                     AuthorizeIndex = fields[8],
@@ -52,7 +52,7 @@ namespace LooWooTech.AssetsTrade.Models
                     StockName = fields[2],
                     TradeFlag = fields[4],
                     StrikePrice = double.Parse(fields[5]),
-                    StrikeCount = int.Parse(fields[6]),
+                    StrikeCount = (int)double.Parse(fields[6]),
 
                     TradeID = fields[7],
                     AuthorizeIndex = fields[8],

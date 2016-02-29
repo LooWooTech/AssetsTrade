@@ -35,6 +35,7 @@ namespace LooWooTech.AssetsTrade.StockService
                     }
                     catch (Exception ex)
                     {
+                        LogWriter.Error(ex.Message);
                         LogHelper.WriteLog(ex);
                     }
                     //如果不是工作时间，线程间隔为1分钟，工作时间为1秒钟

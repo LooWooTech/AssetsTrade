@@ -13,7 +13,7 @@ namespace LooWooTech.AssetsTrade.StockService
         {
             get
             {
-                return DateTime.Parse(DateTime.Today.ToShortDateString() + "9:30");
+                return DateTime.Parse(DateTime.Today.ToShortDateString() + " 9:30");
             }
         }
 
@@ -21,7 +21,7 @@ namespace LooWooTech.AssetsTrade.StockService
         {
             get
             {
-                return DateTime.Parse(DateTime.Today.ToShortDateString() + "11:30");
+                return DateTime.Parse(DateTime.Today.ToShortDateString() + " 11:30");
             }
         }
 
@@ -29,7 +29,7 @@ namespace LooWooTech.AssetsTrade.StockService
         {
             get
             {
-                return DateTime.Parse(DateTime.Today.ToShortDateString() + "13:00");
+                return DateTime.Parse(DateTime.Today.ToShortDateString() + " 13:00");
             }
         }
 
@@ -37,7 +37,7 @@ namespace LooWooTech.AssetsTrade.StockService
         {
             get
             {
-                return DateTime.Parse(DateTime.Today.ToShortDateString() + "15:00");
+                return DateTime.Parse(DateTime.Today.ToShortDateString() + " 15:00");
             }
         }
 

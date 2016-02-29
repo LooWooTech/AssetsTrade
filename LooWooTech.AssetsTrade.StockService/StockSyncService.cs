@@ -12,6 +12,7 @@ namespace LooWooTech.AssetsTrade.StockService
         {
             if (AppSettings.IsWorkingTime)
             {
+                LogWriter.Default("同步股票市价");
                 Core.StockManager.SyncStocks();
             }
         }

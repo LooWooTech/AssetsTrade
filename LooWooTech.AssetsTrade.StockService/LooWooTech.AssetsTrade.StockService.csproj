@@ -61,6 +61,7 @@
   <ItemGroup>
     <Compile Include="AuthorizeService.cs" />
     <Compile Include="CloseAccountService.cs" />
+    <Compile Include="LogWriter.cs" />
     <Compile Include="RefreshDataService.cs" />
     <Compile Include="ServiceBase.cs" />
     <Compile Include="ProjectInstaller.cs">

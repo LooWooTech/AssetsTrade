@@ -20,11 +20,12 @@ namespace LooWooTech.AssetsTrade.StockService
         protected override void Dowork()
         {
             var list = Core.AuthorizeManager.GetTodayAuthorize();
-            //更新委托
+            LogWriter.Default("查询委托" + list.Count + "条");
             foreach (var item in list)
             {
                 Core.TradeManager.UpdateAuthorize(item);
             }
+            LogWriter.Success("委托更新完毕");
         }
     }
 }

@@ -20,5 +20,15 @@ namespace LooWooTech.AssetsTrade.Common
 
             return new DateTime(year, month, day);
         }
+
+        public static int ToInt(this string str, int defaultValue = 0)
+        {
+            var result = 0;
+            if (int.TryParse(str, out result))
+            {
+                return result;
+            }
+            return defaultValue;
+        }
     }
 }

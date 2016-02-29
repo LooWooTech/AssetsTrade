@@ -40,6 +40,7 @@ namespace LooWooTech.AssetsTrade.StockService
 
 #if DEBUG
             StartService();
+            LogWriter.Success("服务已启动");
             while (true)
             {
                 var cmd = Console.ReadLine();
@@ -72,6 +73,7 @@ namespace LooWooTech.AssetsTrade.StockService
         private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             var ex = (Exception)e.ExceptionObject;
+            LogWriter.Error(ex.Message);
             LogHelper.WriteLog(ex);
         }
     }

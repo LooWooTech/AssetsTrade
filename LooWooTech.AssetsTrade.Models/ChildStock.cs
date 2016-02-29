@@ -23,8 +23,8 @@ namespace LooWooTech.AssetsTrade.Models
             {
                 StockCode = fields[0],
                 StockName = fields[1],
-                AllCount = int.Parse(fields[2]),
-                UseableCount = int.Parse(fields[3]),
+                AllCount = (int)double.Parse(fields[2]),
+                UseableCount = (int)double.Parse(fields[3]),
                 PrimeCost = double.Parse(fields[4]),
                 CurrentPrice = double.Parse(fields[5]),
             };
