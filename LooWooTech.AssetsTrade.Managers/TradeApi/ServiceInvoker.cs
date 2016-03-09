@@ -29,11 +29,10 @@ namespace LooWooTech.AssetsTrade.Managers.TradeApi
             }
         }
 
-        private ApiResult InvokeApi(ITradeService service, string method, object[] arguments)
+        private static ApiResult InvokeApi(ITradeService service, MainAccount account, string method, object[] arguments)
         {
             var serviceIp = ManagerCore.Instance.IPManager.GetFastIP(service.GetType());
-            var mainAccount = ManagerCore.Instance.AccountManager.GetServerMainAccount();
-            service.Login(mainAccount, serviceIp);
+            service.Login(account, serviceIp);
 
             var result = (ApiResult)service.GetType().InvokeMember(method, System.Reflection.BindingFlags.InvokeMethod, null, service, arguments);
             if (!string.IsNullOrEmpty(result.Error))
@@ -42,25 +41,29 @@ namespace LooWooTech.AssetsTrade.Managers.TradeApi
                 if (result.Error.Contains("网络连接失败"))
                 {
                     service.Logout();
-                    service.Login(mainAccount, serviceIp);
+                    service.Login(account, serviceIp);
                     result = (ApiResult)service.GetType().InvokeMember(method, System.Reflection.BindingFlags.InvokeMethod, null, service, arguments);
                 }
             }
             return result;
         }
 
-        public ApiResult InvokeMethod(string method, object[] arguments)
+        public ApiResult InvokeMethod(MainAccount account, string method, object[] arguments)
         {
             var service = GetService();
-            var result = InvokeApi(service, method, arguments);
+            var result = InvokeApi(service, account, method, arguments);
             //如果出错，调用其它服务
             if (!string.IsNullOrEmpty(result.Error))
             {
                 foreach (var kv in _services)
                 {
+                    if (kv.Key.GetType() == service.GetType())
+                    {
+                        continue;
+                    }
                     if (!kv.Value)
                     {
-                        result = InvokeApi(kv.Key, method, arguments);
+                        result = InvokeApi(kv.Key, account, method, arguments);
                         if (string.IsNullOrEmpty(result.Error))
                         {
                             SetMainService(kv.Key);

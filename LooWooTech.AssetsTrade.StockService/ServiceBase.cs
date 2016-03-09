@@ -1,5 +1,6 @@
 ﻿using LooWooTech.AssetsTrade.Common;
 using LooWooTech.AssetsTrade.Managers;
+using LooWooTech.AssetsTrade.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,8 @@ namespace LooWooTech.AssetsTrade.StockService
 {
     abstract class ServiceBase
     {
+        public MainAccount Account { get; set; }
+
         protected static readonly ManagerCore Core = ManagerCore.Instance;
 
         protected CancellationTokenSource cts = new CancellationTokenSource();

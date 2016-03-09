@@ -31,10 +31,12 @@ namespace LooWooTech.AssetsTrade.Models
         public string ParentID { get; set; }
 
         [NotMapped]
+        [Xml.Net.XmlConvertIgnored]
         public MainAccount Parent { get; set; }
         /// <summary>
         /// 子帐户密码
         /// </summary>
+        [Xml.Net.XmlConvertIgnored]
         public string Password { get; set; }
         /// <summary>
         /// 保证金(可变)

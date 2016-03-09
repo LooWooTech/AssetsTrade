@@ -75,5 +75,7 @@ namespace LooWooTech.AssetsTrade.Models
         [MaxLength(200)]
         public string Memo { get; set; }
 
+        public int? UpdateTime { get; set; }
+
     }
 }

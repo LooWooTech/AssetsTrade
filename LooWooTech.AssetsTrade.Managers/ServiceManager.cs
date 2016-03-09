@@ -8,63 +8,53 @@ using System.Threading.Tasks;
 
 namespace LooWooTech.AssetsTrade.Managers
 {
-    public class ServiceManager : ManagerBase, ITradeService
+    public class ServiceManager : ManagerBase
     {
         private static readonly TradeApi.ServiceInvoker Invoker = new TradeApi.ServiceInvoker();
 
-        public ApiResult Login(MainAccount account, ServiceIP ip)
+        public ApiResult Buy(MainAccount account, string stockCode, int number, double price)
         {
-            return Invoker.InvokeMethod("Login", new object[] { account, ip });
+            return Invoker.InvokeMethod(account, "Buy", new object[] { stockCode, number, price });
         }
 
-        public ApiResult Buy(string stockCode, int number, double price)
+        public ApiResult Sell(MainAccount account, string stockCode, int number, double price)
         {
-            return Invoker.InvokeMethod("Buy", new object[] { stockCode, number, price });
+            return Invoker.InvokeMethod(account, "Sell", new object[] { stockCode, number, price });
         }
 
-        public ApiResult Sell(string stockCode, int number, double price)
+        public ApiResult Cancel(MainAccount account, string stockCode, string authorizeIndex)
         {
-            return Invoker.InvokeMethod("Sell", new object[] { stockCode, number, price });
+            return Invoker.InvokeMethod(account, "Cancel", new object[] { stockCode, authorizeIndex });
         }
 
-        public ApiResult Cancel(string stockCode, string authorizeIndex)
+        public ApiResult QueryStocks(MainAccount account)
         {
-            return Invoker.InvokeMethod("Cancel", new object[] { stockCode, authorizeIndex });
+            return Invoker.InvokeMethod(account, "QueryStocks", null);
         }
 
-        public ApiResult QueryStocks()
+        public ApiResult QueryAuthroizes(MainAccount account)
         {
-            return Invoker.InvokeMethod("QueryStocks", null);
+            return Invoker.InvokeMethod(account, "QueryAuthroizes", null);
         }
 
-        public ApiResult QueryAuthroizes()
+        public ApiResult QueryTrades(MainAccount account)
         {
-            return Invoker.InvokeMethod("QueryAuthroizes", null);
+            return Invoker.InvokeMethod(account, "QueryTrades", null);
         }
 
-        public ApiResult QueryTrades()
+        public ApiResult QueryMoney(MainAccount account)
         {
-            return Invoker.InvokeMethod("QueryTrades", null);
+            return Invoker.InvokeMethod(account, "QueryMoney", null);
         }
 
-        public ApiResult QueryMoney()
+        public ApiResult QueryHistoryTrade(MainAccount account, DateTime startTime, DateTime endTime)
         {
-            return Invoker.InvokeMethod("QueryMoney", null);
+            return Invoker.InvokeMethod(account, "QueryHistoryTrade", new object[] { startTime, endTime });
         }
 
-        public ApiResult QueryHistoryTrade(DateTime startTime, DateTime endTime)
+        public ApiResult QueryHistoryMoney(MainAccount account, DateTime startTime, DateTime endTime)
         {
-            return Invoker.InvokeMethod("QueryHistoryTrade", new object[] { startTime, endTime });
-        }
-
-        public ApiResult QueryHistoryMoney(DateTime startTime, DateTime endTime)
-        {
-            return Invoker.InvokeMethod("QueryHistoryMoney", new object[] { startTime, endTime });
-        }
-
-        public void Logout()
-        {
-            Invoker.InvokeMethod("Logout", null);
+            return Invoker.InvokeMethod(account, "QueryHistoryMoney", new object[] { startTime, endTime });
         }
     }
 }

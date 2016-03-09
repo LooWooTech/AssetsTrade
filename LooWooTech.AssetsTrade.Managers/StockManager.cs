@@ -15,11 +15,11 @@ namespace LooWooTech.AssetsTrade.Managers
         /// <summary>
         /// 查询持仓
         /// </summary>
-        public List<ChildStock> GetChildStocks(int childId)
+        public List<ChildStock> GetChildStocks(ChildAccount child)
         {
             using (var db = GetDbContext())
             {
-                return db.ChildStocks.Where(e => e.ChildID == childId).ToList();
+                return db.ChildStocks.Where(e => e.ChildID == child.ChildID).ToList();
             }
         }
 
@@ -44,10 +44,10 @@ namespace LooWooTech.AssetsTrade.Managers
         /// 查询持仓接口
         /// </summary>
         /// <returns></returns>
-        public List<ChildStock> QueryStocks()
+        public List<ChildStock> QueryStocks(MainAccount account)
         {
             var list = new List<ChildStock>();
-            var result = Core.ServiceManager.QueryStocks();
+            var result = Core.ServiceManager.QueryStocks(account);
             if (result.Result)
             {
                 foreach (var line in result.Data.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries))
@@ -61,9 +61,9 @@ namespace LooWooTech.AssetsTrade.Managers
         /// <summary>
         /// 同步股票市价
         /// </summary>
-        public void SyncStocks()
+        public void SyncStocks(MainAccount account)
         {
-            var list = QueryStocks();
+            var list = QueryStocks(account);
             if (list.Count == 0) return;
 
             using (var db = GetDbContext())

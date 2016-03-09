@@ -14,7 +14,7 @@ namespace LooWooTech.AssetsTrade.WebApi.Controllers
         /// </summary>
         public ActionResult Buy(string stockCode, int number, double price)
         {
-            Core.TradeManager.ToBuy(stockCode, number, price, CurrentUser.ID);
+            Core.TradeManager.ToBuy(stockCode, number, price, CurrentAccount);
             return SuccessResult();
         }
 
@@ -23,7 +23,7 @@ namespace LooWooTech.AssetsTrade.WebApi.Controllers
         /// </summary>
         public ActionResult Sell(string stockCode, int number, double price)
         {
-            Core.TradeManager.ToSell(stockCode, number, price, CurrentUser.ID);
+            Core.TradeManager.ToSell(stockCode, number, price, CurrentAccount);
             return SuccessResult();
         }
 
@@ -32,7 +32,7 @@ namespace LooWooTech.AssetsTrade.WebApi.Controllers
         /// </summary>
         public ActionResult Cancel(string stockCode, string authorizeIndex)
         {
-            Core.TradeManager.CancelOrder(authorizeIndex, stockCode, CurrentUser.ID);
+            Core.TradeManager.CancelOrder(authorizeIndex, stockCode, CurrentAccount);
             return SuccessResult();
         }
     }

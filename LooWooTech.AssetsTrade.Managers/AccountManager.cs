@@ -24,6 +24,14 @@ namespace LooWooTech.AssetsTrade.Managers
             }
         }
 
+        public List<MainAccount> GetMainAccounts()
+        {
+            using(var db =GetDbContext())
+            {
+                return db.MainAccounts.ToList();
+            }
+        }
+
         public ChildAccount GetChildAccount(string username, string password = null)
         {
             if (string.IsNullOrEmpty(username))
@@ -99,12 +107,12 @@ namespace LooWooTech.AssetsTrade.Managers
             return _serverAccount;
         }
 
-        public void UpdateChildAccountMoneyAndStocks(string mainId)
+        public void UpdateChildAccountMoneyAndStocks(MainAccount account)
         {
             using (var db = GetDbContext())
             {
                 //更新所有子帐户的可取余额
-                var childIds = GetChildIds(mainId);
+                var childIds = GetChildIds(account.MainID);
                 foreach (var childId in childIds)
                 {
                     var child = db.ChildAccounts.FirstOrDefault(e => e.ChildID == childId);

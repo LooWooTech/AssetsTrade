@@ -1,4 +1,5 @@
 ﻿using LooWooTech.AssetsTrade.Managers;
+using LooWooTech.AssetsTrade.Models;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -11,7 +12,6 @@ namespace LooWooTech.AssetsTrade.StockService
 {
     internal class AuthorizeService : ServiceBase
     {
-
         protected override int GetInterval()
         {
             return AppSettings.IsWorkingTime ? 1 : 120;
@@ -19,7 +19,7 @@ namespace LooWooTech.AssetsTrade.StockService
 
         protected override void Dowork()
         {
-            var list = Core.AuthorizeManager.GetTodayAuthorize();
+            var list = Core.AuthorizeManager.GetTodayAuthorize(Account);
             LogWriter.Default("查询委托" + list.Count + "条");
             foreach (var item in list)
             {

@@ -11,23 +11,7 @@ namespace LooWooTech.AssetsTrade.StockService
 {
     static class Program
     {
-        private static AuthorizeService service1 = new AuthorizeService();
-        private static CloseAccountService service2 = new CloseAccountService();
-        private static RefreshDataService service3 = new RefreshDataService();
-
-        private static void StartService()
-        {
-            service1.Start();
-            service2.Start();
-            service3.Start();
-        }
-
-        private static void StopService()
-        {
-            service1.Stop();
-            service2.Stop();
-            service3.Stop();
-        }
+        private static readonly ServiceHostManager ServiceHostManager = new ServiceHostManager();
 
         /// <summary>
         /// The main entry point for the application.
@@ -37,9 +21,7 @@ namespace LooWooTech.AssetsTrade.StockService
 
             Console.ForegroundColor = ConsoleColor.White;
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
-
-#if DEBUG
-            StartService();
+            ServiceHostManager.Start();
             LogWriter.Success("服务已启动");
             while (true)
             {
@@ -47,10 +29,11 @@ namespace LooWooTech.AssetsTrade.StockService
                 switch (cmd)
                 {
                     case "stop":
-                        StopService();
+                        ServiceHostManager.Stop();
+                        Console.WriteLine("请关闭程序重新打开");
                         break;
                     case "start":
-                        StartService();
+                        ServiceHostManager.Start();
                         break;
                     case "help":
                         Console.WriteLine("start|stop|exit");
@@ -59,15 +42,6 @@ namespace LooWooTech.AssetsTrade.StockService
                         break;
                 }
             }
-
-#else
-            ServiceBase[] ServicesToRun;
-            ServicesToRun = new ServiceBase[]
-            {
-                new Service1()
-            };
-            ServiceBase.Run(ServicesToRun);
-#endif
         }
 
         private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)

@@ -66,14 +66,6 @@ namespace LooWooTech.AssetsTrade.StockService
             }
         }
 
-        public static string MainAccountID
-        {
-            get
-            {
-                return ConfigurationManager.AppSettings["MainAccountID"];
-            }
-        }
-
         public static int SyncInterval
         {
             get

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LooWooTech.AssetsTrade.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,7 +14,7 @@ namespace LooWooTech.AssetsTrade.StockService
             if (AppSettings.IsWorkingTime)
             {
                 LogWriter.Default("同步股票市价");
-                Core.StockManager.SyncStocks();
+                Core.StockManager.SyncStocks(Account);
             }
         }
 

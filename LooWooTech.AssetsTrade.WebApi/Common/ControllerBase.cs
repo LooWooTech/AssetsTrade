@@ -17,9 +17,21 @@ namespace LooWooTech.AssetsTrade.WebApi
     public class ControllerBase : AsyncController
     {
         protected static ManagerCore Core = ManagerCore.Instance;
+
         protected UserIdentity CurrentUser
         {
             get { return Thread.CurrentPrincipal.Identity as UserIdentity; }
+        }
+
+        protected ChildAccount CurrentAccount { get; private set; }
+
+        protected override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            base.OnActionExecuting(filterContext);
+            if(CurrentUser.IsAuthenticated)
+            {
+                CurrentAccount = Core.AccountManager.GetChildAccount(CurrentUser.ID);
+            }
         }
 
         private static string _serializeType = System.Configuration.ConfigurationManager.AppSettings["SerializeType"] ?? "xml";

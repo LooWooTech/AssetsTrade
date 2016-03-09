@@ -1,4 +1,5 @@
 ﻿using LooWooTech.AssetsTrade.Common;
+using LooWooTech.AssetsTrade.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,9 +20,11 @@ namespace LooWooTech.AssetsTrade.Managers
         {
             get { return ManagerCore.Instance; }
         }
+
         protected DataContext GetDbContext()
         {
             return new DataContext();
         }
+
     }
 }

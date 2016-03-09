@@ -13,9 +13,9 @@ namespace LooWooTech.AssetsTrade.Managers
         /// <summary>
         /// 通过接口获取“当日委托”列表
         /// </summary>
-        public List<ChildAuthorize> GetTodayAuthorize()
+        public List<ChildAuthorize> GetTodayAuthorize(MainAccount account)
         {
-            var result = Core.ServiceManager.QueryAuthroizes();
+            var result = Core.ServiceManager.QueryAuthroizes(account);
             if (!result.Result)
             {
                 throw new Exception("当日委托获取失败\n" + result.Error);
@@ -32,11 +32,11 @@ namespace LooWooTech.AssetsTrade.Managers
             return list;
         }
 
-        public List<ChildAuthorize> GetList(int childId)
+        public List<ChildAuthorize> GetList(ChildAccount child)
         {
             using (var db = GetDbContext())
             {
-                return db.ChildAuthorizes.Where(e => e.ChildID == childId).ToList();
+                return db.ChildAuthorizes.Where(e => e.ChildID == child.ChildID).ToList();
             }
         }
 
