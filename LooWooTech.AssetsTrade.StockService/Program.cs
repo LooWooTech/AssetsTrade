@@ -18,6 +18,7 @@ namespace LooWooTech.AssetsTrade.StockService
         /// </summary>
         static void Main()
         {
+            Environment.CurrentDirectory = AppDomain.CurrentDomain.BaseDirectory;
 
             Console.ForegroundColor = ConsoleColor.White;
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;

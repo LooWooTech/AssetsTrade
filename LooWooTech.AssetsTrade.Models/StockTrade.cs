@@ -25,7 +25,7 @@ namespace LooWooTech.AssetsTrade.Models
             if (string.IsNullOrEmpty(queryData)) return null;
             var fields = queryData.Split('\t');
             //当日
-            if (fields.Length == 10)
+            if (fields.Length == 13)
             {
                 return new StockTrade
                 {

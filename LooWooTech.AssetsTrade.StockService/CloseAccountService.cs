@@ -13,9 +13,9 @@ namespace LooWooTech.AssetsTrade.StockService
 
         protected override void Dowork()
         {
-            if(_hasCloseAccount)
+            if (_hasCloseAccount)
             {
-                if(DateTime.Now.Minute != AppSettings.CloseAccountTime.Minute)
+                if (DateTime.Now.Minute != AppSettings.CloseAccountTime.Minute)
                 {
                     _hasCloseAccount = false;
                 }
@@ -23,7 +23,7 @@ namespace LooWooTech.AssetsTrade.StockService
             }
             if (DateTime.Now.Hour == AppSettings.CloseAccountTime.Hour && DateTime.Now.Minute == AppSettings.CloseAccountTime.Minute)
             {
-                LogWriter.Info("开始结算所有委托");
+                LogWriter.Info("[" + Account.MainCodeName + "]\t开始结算所有委托");
                 //结算所有委托
                 Core.AuthorizeManager.CloseAllAuthorize();
                 LogWriter.Success("结算完毕");

@@ -11,6 +11,7 @@ namespace LooWooTech.AssetsTrade.WebApi
     {
         protected void Application_Start()
         {
+            Environment.CurrentDirectory = AppDomain.CurrentDomain.BaseDirectory;
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);

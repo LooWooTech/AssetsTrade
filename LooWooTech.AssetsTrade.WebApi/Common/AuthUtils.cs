@@ -67,7 +67,7 @@ namespace LooWooTech.AssetsTrade.WebApi
                         }
                     }
                 }
-                catch
+                catch(Exception ex)
                 {
                 }
             }

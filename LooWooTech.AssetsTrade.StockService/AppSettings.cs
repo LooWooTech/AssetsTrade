@@ -75,5 +75,15 @@ namespace LooWooTech.AssetsTrade.StockService
                 return interval;
             }
         }
+
+        public static int QueryAuthroizeIntervalSecond
+        {
+            get
+            {
+                var interval = 0;
+                int.TryParse(ConfigurationManager.AppSettings["QueryAuthroizeIntervalSecond"], out interval);
+                return interval == 0 ? 1 : interval;
+            }
+        }
     }
 }

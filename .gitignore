@@ -211,3 +211,5 @@ GeneratedArtifacts/
 _Pvt_Extensions/
 ModelManifest.xml
 /LooWooTech.AssetsTrade.WebApi/logs
+/LooWooTech.AssetsTrade.WebApi/TcApi_Cache
+/LooWooTech.AssetsTrade.WebApi/system.uid

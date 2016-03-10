@@ -9,6 +9,19 @@ namespace LooWooTech.AssetsTrade.Common
 {
     public class LogHelper
     {
+        private static string GetExceptionLogContent(Exception ex)
+        {
+            var content = new StringBuilder();
+            content.AppendLine(ex.Message);
+            content.AppendLine(ex.StackTrace);
+            content.AppendLine(ex.Source);
+            if (ex.InnerException != null)
+            {
+                content.AppendLine(GetExceptionLogContent(ex.InnerException));
+            }
+            return content.ToString();
+        }
+
         public static void WriteLog(Exception ex)
         {
             try
@@ -18,11 +31,8 @@ namespace LooWooTech.AssetsTrade.Common
                 {
                     Directory.CreateDirectory(logPath);
                 }
-                var content = new StringBuilder();
-                content.AppendLine(ex.Message);
-                content.AppendLine(ex.StackTrace);
-                content.AppendLine(ex.Source);
-                File.WriteAllText(Path.Combine(logPath, ex.GetType().Name + DateTime.Now.Ticks.ToString() + ".txt"), content.ToString());
+                var content = GetExceptionLogContent(ex);
+                File.WriteAllText(Path.Combine(logPath, ex.GetType().Name + DateTime.Now.Ticks.ToString() + ".txt"), content);
             }
             catch
             {

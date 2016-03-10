@@ -38,7 +38,7 @@ namespace LooWooTech.AssetsTrade.Managers.TradeApi
             if (!string.IsNullOrEmpty(result.Error))
             {
                 //尝试一次登录
-                if (result.Error.Contains("网络连接失败"))
+                if (result.Error.Contains("连接已断开"))
                 {
                     service.Logout();
                     service.Login(account, serviceIp);

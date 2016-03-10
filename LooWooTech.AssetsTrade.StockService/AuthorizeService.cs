@@ -14,18 +14,17 @@ namespace LooWooTech.AssetsTrade.StockService
     {
         protected override int GetInterval()
         {
-            return AppSettings.IsWorkingTime ? 1 : 120;
+            return AppSettings.IsWorkingTime ? AppSettings.QueryAuthroizeIntervalSecond : 120;
         }
 
         protected override void Dowork()
         {
             var list = Core.AuthorizeManager.GetTodayAuthorize(Account);
-            LogWriter.Default("查询委托" + list.Count + "条");
+            LogWriter.Default("[" + Account.MainCodeName + "]\t查询委托" + list.Count + "条");
             foreach (var item in list)
             {
                 Core.TradeManager.UpdateAuthorize(item);
             }
-            LogWriter.Success("委托更新完毕");
         }
     }
 }
