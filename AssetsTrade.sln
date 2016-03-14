@@ -22,6 +22,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "libs", "libs", "{D8771496-D
 		libs\TdxTrade.dll = libs\TdxTrade.dll
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{E06F065C-EDBF-46D5-8186-B077D6FCB7CB}"
+	ProjectSection(SolutionItems) = preProject
+		docs\tdxtrade.dll 接口说明.doc = docs\tdxtrade.dll 接口说明.doc
+		docs\Web接口说明.docx = docs\Web接口说明.docx
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

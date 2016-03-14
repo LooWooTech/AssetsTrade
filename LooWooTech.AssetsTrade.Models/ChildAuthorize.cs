@@ -140,5 +140,34 @@ namespace LooWooTech.AssetsTrade.Models
         /// 资金余额
         /// </summary>
         public double OverFlowMoney { get; set; }
+
+        /// <summary>
+        /// 计算冻结资金
+        /// </summary>
+        /// <returns></returns>
+        public double GetFrozenMoney(ChildAccount child)
+        {
+            //卖出不是
+            if (TradeFlag == "0") return 0;
+            var total = AuthorizePrice * AuthorizeCount + child.GetGuoHuFei(StockCode, AuthorizePrice, AuthorizeCount)
+                + child.GetShouXuFei(StockCode, AuthorizePrice, AuthorizeCount);
+
+            switch (AuthorizeState)
+            {
+                case "失败":
+                case "废单":
+                    return 0;
+                case "已成":
+                case "部成":
+                    var tradeMoney = child.GetGuoHuFei(StockCode, StrikePrice, StrikeCount) + child.GetShouXuFei(StockCode, StrikePrice, StrikeCount) + StrikeCount * StrikePrice;
+                    return total - tradeMoney;
+                default:
+                    if (AuthorizeState.Contains("撤"))
+                    {
+                        return 0;
+                    }
+                    return total;
+            }
+        }
     }
 }

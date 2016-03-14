@@ -26,21 +26,21 @@ namespace LooWooTech.AssetsTrade.Managers
 
         public List<MainAccount> GetMainAccounts()
         {
-            using(var db =GetDbContext())
+            using (var db = GetDbContext())
             {
                 return db.MainAccounts.ToList();
             }
         }
 
-        public ChildAccount GetChildAccount(string username, string password = null)
+        public ChildAccount GetChildAccount(int childId, string password = null)
         {
-            if (string.IsNullOrEmpty(username))
+            if (childId == 0)
             {
-                throw new ArgumentNullException("username");
+                throw new ArgumentNullException("childId");
             }
             using (var db = GetDbContext())
             {
-                var entity = db.ChildAccounts.FirstOrDefault(e => e.ChildName.ToLower() == username.ToLower());
+                var entity = db.ChildAccounts.FirstOrDefault(e => e.ChildID == childId);
                 if (entity == null)
                 {
                     throw new ArgumentException("用户不存在");
@@ -53,11 +53,11 @@ namespace LooWooTech.AssetsTrade.Managers
             }
         }
 
-        public void UpdateChildAccountPassword(string username, string oldPassword, string newPassword)
+        public void UpdateChildAccountPassword(int childId, string oldPassword, string newPassword)
         {
             using (var db = GetDbContext())
             {
-                var entity = db.ChildAccounts.FirstOrDefault(e => e.ChildName.ToLower() == username.ToLower());
+                var entity = db.ChildAccounts.FirstOrDefault(e => e.ChildID == childId);
                 if (entity == null)
                 {
                     throw new ArgumentException("用户不存在");
@@ -120,11 +120,11 @@ namespace LooWooTech.AssetsTrade.Managers
                 }
                 //更新所有子帐户的持仓余额
                 var stocks = db.ChildStocks.Where(e => childIds.Contains(e.ChildID));
-                foreach(var stock in stocks)
+                foreach (var stock in stocks)
                 {
                     stock.UseableCount = stock.AllCount;
                     //如果持仓为0，则删除该股票
-                    if(stock.UseableCount == 0)
+                    if (stock.UseableCount == 0)
                     {
                         db.ChildStocks.Remove(stock);
                     }

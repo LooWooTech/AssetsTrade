@@ -18,11 +18,8 @@ namespace LooWooTech.AssetsTrade.Managers
         {
             using (var db = GetDbContext())
             {
-                //股票费用
-                var stockPrice = number * price;
-
                 //总费用
-                var totalPrice = stockPrice + child.GetShouXuFei(stockCode, price, number) + child.GetGuoHuFei(stockCode, price, number);
+                var totalPrice = number * price + child.GetShouXuFei(stockCode, price, number) + child.GetGuoHuFei(stockCode, price, number);
                 //判断余额
                 if (child.UseableMoney < totalPrice)
                 {
@@ -52,14 +49,14 @@ namespace LooWooTech.AssetsTrade.Managers
                     MainYinHuaShui = child.Parent.YinHuaShui,
                     AuthorizeState = "未报",
                     AuthorizeTime = DateTime.Now,
-                    OverFlowMoney = child.UseableMoney - stockPrice,//佣金、过户费要在成交时扣除
+                    OverFlowMoney = child.UseableMoney - totalPrice,//佣金、过户费要在成交时扣除
                 };
 
                 if (result.Result)
                 {
                     var toUpdateChildEntity = db.ChildAccounts.FirstOrDefault(e => e.ChildID == child.ChildID);
-                    //扣除余额资金
-                    toUpdateChildEntity.UseableMoney -= stockPrice;
+                    //冻结股票资金和相关费用
+                    toUpdateChildEntity.UseableMoney -= totalPrice;
                     //委托编号
                     authorize.AuthorizeIndex = result.Data;
 
@@ -94,7 +91,7 @@ namespace LooWooTech.AssetsTrade.Managers
                 //调用卖出接口 
                 var result = Core.ServiceManager.Sell(child.Parent, stockCode, number, price);
                 //声明一个新委托
-                var authorize = new ChildAuthorize
+                var model = new ChildAuthorize
                 {
                     ID = DateTime.Now.ToString("yyyyMMddHHmmssffff"),
                     AuthorizeIndex = "0",
@@ -115,19 +112,23 @@ namespace LooWooTech.AssetsTrade.Managers
                 //如果调用接口成功
                 if (result.Result)
                 {
+                    //如果是卖出，先扣除印花税，成交时不再扣，如果部分成交，则需要返还部分税
+                    var toUpdateChild = db.ChildAccounts.FirstOrDefault(e => e.ChildID == child.ChildID);
+                    toUpdateChild.UseableMoney -= child.GetYinHuaShui(model.StockCode, model.StrikePrice, model.StrikeCount);
+
                     //赋值委托编号
-                    authorize.AuthorizeIndex = result.Data;
+                    model.AuthorizeIndex = result.Data;
                     //持仓总量-卖出数量
                     stocks.AllCount -= number;
                     //可用数量-卖出数量（可卖出股票必定是可用股票）
                     stocks.UseableCount -= number;
 
-                    db.ChildAuthorizes.Add(authorize);
+                    db.ChildAuthorizes.Add(model);
                     db.SaveChanges();
                 }
                 else
                 {
-                    db.ChildAuthorizes.Add(authorize);
+                    db.ChildAuthorizes.Add(model);
                     db.SaveChanges();
                     throw new Exception("卖出失败\n" + result.Error);
                 }
@@ -185,10 +186,6 @@ namespace LooWooTech.AssetsTrade.Managers
                 //有成交量，先结算成交量
                 if ("已成,部撤,部废".Contains(model.AuthorizeState))
                 {
-                    var shouxufei = child.GetShouXuFei(model.StockCode, model.StrikePrice, model.StrikeCount);
-                    var guohufei = child.GetGuoHuFei(model.StockCode, model.StrikePrice, model.StrikeCount);
-                    //扣除手续费和过户费
-                    child.UseableMoney = child.UseableMoney - shouxufei - guohufei;
                     if (isBuy)
                     {
                         //如果是买入，持仓股票总量增加
@@ -215,10 +212,8 @@ namespace LooWooTech.AssetsTrade.Managers
                     }
                     else
                     {
-                        //如果是卖出，扣除印花税，另外余额增加股票的市值
-                        child.UseableMoney -= child.GetYinHuaShui(model.StockCode, model.StrikePrice, model.StrikeCount);
+                        //如果卖出成功，则只需要余额增加股票成交额即可，手续费在发起委托时已扣
                         child.UseableMoney += model.StrikePrice * model.StrikeCount;
-
                         //更新持仓数量
                         stock.AllCount -= model.StrikeCount;
                         stock.UseableCount -= model.StrikeCount;
@@ -232,9 +227,14 @@ namespace LooWooTech.AssetsTrade.Managers
                     {
                         entity.UndoCount = model.AuthorizeCount - model.StrikeCount;
                     }
+                    //不论买入还是卖出，都事先扣除了手续费，在撤单时要归还撤单数量对应的手续费
+                    var undoMoney = model.AuthorizePrice * model.UndoCount +
+                        child.GetGuoHuFei(model.StockCode, model.AuthorizePrice, model.UndoCount) +
+                        child.GetShouXuFei(model.StockCode, model.AuthorizePrice, model.UndoCount);
+                    child.UseableMoney += undoMoney;
+
                     if (isBuy)
                     {
-                        child.UseableMoney += model.StrikePrice * model.StrikeCount;
                         //买入并不会更新股票可用余额 所以只需要更新总量
                         stock.AllCount -= model.StrikeCount;
                     }
@@ -315,6 +315,30 @@ namespace LooWooTech.AssetsTrade.Managers
                 return list.Where(e => childStockCodes.Contains(e.StockCode)).ToList();
             }
             throw new Exception(result.Error);
+        }
+
+        /// <summary>
+        /// 获取冻结资金
+        /// </summary>
+        public double GetFrozenMoney(ChildAccount child)
+        {
+            //因为每天需要结算，所以如果是昨天的委托，则判断状态，如果是今天的，查询买入且没有撤单、废单、部撤的
+            using (var db = GetDbContext())
+            {
+                var minDate = DateTime.Today.AddDays(-1).ToUnixTime();
+                var list = db.ChildAuthorizes.Where(e => e.ChildID == child.ChildID && e.AuthorizeTimeValue > minDate).ToList();
+                double result = 0;
+                foreach (var item in list)
+                {
+                    //如果是昨日成交的委托，则不参与计算
+                    if (item.TradeTime > 0 && item.TradeTime < DateTime.Today.ToUnixTime())
+                    {
+                        continue;
+                    }
+                    result += item.GetFrozenMoney(child);
+                }
+                return result;
+            }
         }
 
     }

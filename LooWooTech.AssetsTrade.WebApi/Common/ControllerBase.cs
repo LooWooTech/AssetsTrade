@@ -49,7 +49,7 @@ namespace LooWooTech.AssetsTrade.WebApi
             return new ContentResult { Content = GetSerializedContent(data), ContentEncoding = System.Text.Encoding.UTF8, ContentType = "text/" + _serializeType };
         }
 
-        protected ActionResult SuccessResult<T>(T data) where T : class
+        protected ActionResult SuccessResult<T>(T data)
         {
             return ContentResult(new ApiResult { Code = 1, Data = data });
         }

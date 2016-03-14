@@ -73,5 +73,11 @@ namespace LooWooTech.AssetsTrade.WebApi.Controllers
             var list = Core.TradeManager.GetHistoryMoney(startDate, endDate, CurrentAccount);
             return SuccessResult(list);
         }
+
+        public ActionResult FrozenMoney()
+        {
+            var result = Core.TradeManager.GetFrozenMoney(CurrentAccount);
+            return SuccessResult(result);
+        }
     }
 }

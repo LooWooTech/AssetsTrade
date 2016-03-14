@@ -10,9 +10,9 @@ namespace LooWooTech.AssetsTrade.WebApi.Controllers
     public class AccountController : ControllerBase
     {
         [UserAuthorize(Disabled = true)]
-        public ActionResult Login(string username, string password)
+        public ActionResult Login(int id, string password)
         {
-            var account = Core.AccountManager.GetChildAccount(username, password);
+            var account = Core.AccountManager.GetChildAccount(id, password);
             if (account != null)
             {
                 var token = HttpContext.GetAccessToken(account.ChildID.ToString(), account.ChildName);
@@ -26,17 +26,17 @@ namespace LooWooTech.AssetsTrade.WebApi.Controllers
             throw new HttpException(401, "用户名或密码不正确");
         }
 
-        public ActionResult UpdatePassword(string username, string oldPassword, string newPassword)
+        public ActionResult UpdatePassword(int id, string oldPassword, string newPassword)
         {
-            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(oldPassword) || string.IsNullOrEmpty(newPassword))
+            if (id == 0 || string.IsNullOrEmpty(oldPassword) || string.IsNullOrEmpty(newPassword))
             {
                 throw new ArgumentException("参数不正确");
             }
-            if (CurrentUser.Name.ToLower() != username.ToLower())
+            if (CurrentUser.ID != id)
             {
                 throw new HttpException(401, "没有权限修改密码");
             }
-            Core.AccountManager.UpdateChildAccountPassword(username, oldPassword, newPassword);
+            Core.AccountManager.UpdateChildAccountPassword(id, oldPassword, newPassword);
             return SuccessResult();
         }
 
