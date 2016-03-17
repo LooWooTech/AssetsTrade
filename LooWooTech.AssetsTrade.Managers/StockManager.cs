@@ -63,6 +63,7 @@ namespace LooWooTech.AssetsTrade.Managers
         /// </summary>
         public void SyncStocks(MainAccount account)
         {
+            //TODO
             var list = QueryStocks(account);
             if (list.Count == 0) return;
 

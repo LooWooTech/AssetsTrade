@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace LooWooTech.AssetsTrade.Models
 {
-    [Table("ServiceIp")]
-    public class ServiceIP
+    [Table("ApiHost")]
+    public class ApiHost
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -23,5 +23,13 @@ namespace LooWooTech.AssetsTrade.Models
 
         [NotMapped]
         public long Ping { get; set; }
+
+        public ApiType ApiType { get; set; }
+    }
+
+    public enum ApiType
+    {
+        Trade,
+        Market,
     }
 }

@@ -19,6 +19,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "libs", "libs", "{D8771496-D
 	ProjectSection(SolutionItems) = preProject
 		libs\mfc100.bat = libs\mfc100.bat
 		libs\mfc100.dll = libs\mfc100.dll
+		libs\TdxHqApi.dll = libs\TdxHqApi.dll
 		libs\TdxTrade.dll = libs\TdxTrade.dll
 	EndProjectSection
 EndProject
@@ -26,6 +27,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{E06F065C-E
 	ProjectSection(SolutionItems) = preProject
 		docs\tdxtrade.dll 接口说明.doc = docs\tdxtrade.dll 接口说明.doc
 		docs\Web接口说明.docx = docs\Web接口说明.docx
+		docs\行情接口.doc = docs\行情接口.doc
 	EndProjectSection
 EndProject
 Global

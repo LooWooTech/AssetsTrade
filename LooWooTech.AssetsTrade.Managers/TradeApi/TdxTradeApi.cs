@@ -42,8 +42,8 @@ namespace LooWooTech.AssetsTrade.Managers.TradeApi
         /// <param name="Result"></param>
         /// <param name="ErrInfo"></param>
         /// <returns></returns>
-        [DllImport("TdxTrade.dll")]
-        public static extern int ToBuy(string sCode, int sNum, double sPrice, StringBuilder Result, StringBuilder ErrInfo);
+        [DllImport("TdxTrade.dll", EntryPoint = "ToBuy")]
+        public static extern int ToBuy(string sCode, int sNum, float sPrice, StringBuilder Result, StringBuilder ErrInfo);
         /// <summary>
         /// 下卖单
         /// </summary>
@@ -54,7 +54,7 @@ namespace LooWooTech.AssetsTrade.Managers.TradeApi
         /// <param name="ErrInfo"></param>
         /// <returns></returns>
         [DllImport("TdxTrade.dll")]
-        public static extern int ToSell(string sCode, int sNum, double sPrice, StringBuilder Result, StringBuilder ErrInfo);
+        public static extern int ToSell(string sCode, int sNum, float sPrice, StringBuilder Result, StringBuilder ErrInfo);
         /// <summary>
         /// 撤单指令
         /// </summary>

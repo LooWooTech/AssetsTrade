@@ -44,14 +44,14 @@ Void QueryData (int flag,char* Result, char* ErrInfo);//查询委托
 //end     查询结束日期
 // Result返回表格数据, 行数据之间通过\n字符分割，列数据之间通过\t分隔
 // ErrInfo如果失败 返回服务器错误信息
-Void QueryHistroyData (char* start ,char* end,char* Result, char* ErrInfo);//查询历史成交
+Void QueryHistoryData (char* start ,char* end,char* Result, char* ErrInfo);//查询历史成交
 
 
 //start   查询的开始日期  //20151010
 //end     查询结束日期
 // Result返回表格数据, 行数据之间通过\n字符分割，列数据之间通过\t分隔
 // ErrInfo如果失败 返回服务器错误信息
-Void QueryHistroyMoney (char* start ,char* end,char* Result, char* ErrInfo);//查询资金流水
+Void QueryHistoryMoney (char* start ,char* end,char* Result, char* ErrInfo);//查询资金流水
 
 
 

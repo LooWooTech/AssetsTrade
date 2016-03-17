@@ -15,7 +15,7 @@ namespace LooWooTech.AssetsTrade.Managers.TradeApi
         private int _resultCapacity = 0x1000 * 100;
         private int _errorCapacity = 0x100;
 
-        public ApiResult Login(MainAccount account, ServiceIP ip)
+        public ApiResult Login(MainAccount account, ApiHost ip)
         {
             var success = new ApiResult { Result = true };
 
@@ -49,13 +49,13 @@ namespace LooWooTech.AssetsTrade.Managers.TradeApi
         {
             var data = new StringBuilder(_resultCapacity);
             var error = new StringBuilder(_errorCapacity);
-            var result = TdxTradeApi.ToBuy(stockCode, number, price, data, error) == 1;
+            var result = TdxTradeApi.ToBuy(stockCode, number, float.Parse(price.ToString("f2")), data, error) == 1;
 
             return new ApiResult
             {
                 Result = result,
                 Data = data.ToString(),
-                Error = error.ToString().ToString()
+                Error = error.ToString()
             };
         }
 
@@ -63,7 +63,7 @@ namespace LooWooTech.AssetsTrade.Managers.TradeApi
         {
             var data = new StringBuilder(_resultCapacity);
             var error = new StringBuilder(_errorCapacity);
-            var result = TdxTradeApi.ToSell(stockCode, number, price, data, error) == 1;
+            var result = TdxTradeApi.ToSell(stockCode, number, float.Parse(price.ToString("f2")), data, error) == 1;
 
             return new ApiResult
             {
@@ -90,7 +90,7 @@ namespace LooWooTech.AssetsTrade.Managers.TradeApi
         {
             var data = new StringBuilder(_resultCapacity);
             var error = new StringBuilder(_errorCapacity);
-            TdxTradeApi.QueryData(1, data, error);
+            TdxTradeApi.QueryData((int)QueryFlag.Authorize, data, error);
             return new ApiResult
             {
                 Result = error.Length == 0,
@@ -129,7 +129,7 @@ namespace LooWooTech.AssetsTrade.Managers.TradeApi
         {
             var data = new StringBuilder(_resultCapacity);
             var error = new StringBuilder(_errorCapacity);
-            TdxTradeApi.QueryData(3, data, error);
+            TdxTradeApi.QueryData((int)QueryFlag.Money, data, error);
             return new ApiResult
             {
                 Result = error.Length == 0,
@@ -142,7 +142,7 @@ namespace LooWooTech.AssetsTrade.Managers.TradeApi
         {
             var data = new StringBuilder(_resultCapacity);
             var error = new StringBuilder(_errorCapacity);
-            TdxTradeApi.QueryData(0, data, error);
+            TdxTradeApi.QueryData((int)QueryFlag.Stock, data, error);
             return new ApiResult
             {
                 Result = error.Length == 0,
@@ -155,13 +155,21 @@ namespace LooWooTech.AssetsTrade.Managers.TradeApi
         {
             var data = new StringBuilder(_resultCapacity);
             var error = new StringBuilder(_errorCapacity);
-            TdxTradeApi.QueryData(2, data, error);
+            TdxTradeApi.QueryData((int)QueryFlag.Trade, data, error);
             return new ApiResult
             {
                 Result = error.Length == 0,
                 Data = data.ToString(),
                 Error = error.ToString()
             };
+        }
+
+        enum QueryFlag
+        {
+            Stock = 0,
+            Authorize = 1,
+            Trade = 2,
+            Money = 3
         }
     }
 }

@@ -28,7 +28,7 @@ namespace LooWooTech.AssetsTrade.WebApi
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             base.OnActionExecuting(filterContext);
-            if(CurrentUser.IsAuthenticated)
+            if (CurrentUser.IsAuthenticated)
             {
                 CurrentAccount = Core.AccountManager.GetChildAccount(CurrentUser.ID);
             }
@@ -95,7 +95,7 @@ namespace LooWooTech.AssetsTrade.WebApi
                 filterContext.HttpContext.Response.StatusCode = GetStatusCode(filterContext.Exception);
             }
             filterContext.HttpContext.Response.TrySkipIisCustomErrors = true;
-            filterContext.Result = ErrorResult(filterContext.Exception);
+            filterContext.Result = ErrorResult(filterContext.Exception.InnerException ?? filterContext.Exception);
             LogHelper.WriteLog(filterContext.Exception);
         }
     }

@@ -34,7 +34,7 @@ namespace LooWooTech.AssetsTrade.Managers
 
         public TradeManager TradeManager { get; private set; }
 
-        public IPManager IPManager { get; private set; }
+        public ApiHostManager ApiHostManager { get; private set; }
 
         public ServiceManager ServiceManager { get; private set; }
 

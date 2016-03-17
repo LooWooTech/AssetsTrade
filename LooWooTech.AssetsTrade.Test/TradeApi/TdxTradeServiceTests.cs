@@ -16,12 +16,15 @@ namespace LooWooTech.AssetsTrade.Managers.TradeApi.Tests
         private readonly TdxTradeService Service = new TdxTradeService();
 
         private MainAccount _mainAccount;
-        private ServiceIP _ip;
+        private ApiHost _ip;
 
         public TdxTradeServiceTests()
         {
-            _mainAccount = ManagerCore.Instance.AccountManager.GetServerMainAccount();
-            _ip = ManagerCore.Instance.IPManager.GetFastIP(Service.GetType());
+            _mainAccount = new MainAccount
+            {
+
+            };
+            _ip = ManagerCore.Instance.ApiHostManager.GetFastHost(Service.GetType(), ApiType.Trade);
         }
 
         private void Login()
@@ -94,6 +97,12 @@ namespace LooWooTech.AssetsTrade.Managers.TradeApi.Tests
             var result = Service.QueryHistoryMoney(DateTime.Today.AddDays(-1), DateTime.Today.AddDays(1));
             Trace.WriteLine(result.Data);
             Assert.AreEqual(true, result.Result);
+        }
+
+        [TestMethod]
+        public void QueryQuotesTest()
+        {
+            //Service.QueryQuotes();
         }
     }
 }

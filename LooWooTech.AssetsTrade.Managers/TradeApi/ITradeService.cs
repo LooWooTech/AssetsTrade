@@ -9,7 +9,7 @@ namespace LooWooTech.AssetsTrade.Managers
 {
     public interface ITradeService
     {
-        ApiResult Login(MainAccount account, ServiceIP ip);
+        ApiResult Login(MainAccount account, ApiHost ip);
 
         void Logout();
 
@@ -30,5 +30,7 @@ namespace LooWooTech.AssetsTrade.Managers
         ApiResult QueryHistoryTrade(DateTime startTime, DateTime endTime);
 
         ApiResult QueryHistoryMoney(DateTime startTime, DateTime endTime);
+
+        //ApiResult QueryQuotes();
     }
 }

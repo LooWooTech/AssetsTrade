@@ -7,16 +7,16 @@ using System.Threading.Tasks;
 
 namespace LooWooTech.AssetsTrade.Managers.TradeApi
 {
-    public class ServiceInvoker
+    public class TradeServiceInvoker
     {
         private Dictionary<ITradeService, bool> _services = new Dictionary<ITradeService, bool>();
 
-        public ServiceInvoker()
+        public TradeServiceInvoker()
         {
             _services.Add(new TdxTradeService(), true);
         }
 
-        private ITradeService GetService()
+        private ITradeService GetTradeService()
         {
             return _services.FirstOrDefault(e => e.Value).Key;
         }
@@ -31,8 +31,8 @@ namespace LooWooTech.AssetsTrade.Managers.TradeApi
 
         private static ApiResult InvokeApi(ITradeService service, MainAccount account, string method, object[] arguments)
         {
-            var serviceIp = ManagerCore.Instance.IPManager.GetFastIP(service.GetType());
-            service.Login(account, serviceIp);
+            var host = ManagerCore.Instance.ApiHostManager.GetFastHost(service.GetType(), ApiType.Trade);
+            service.Login(account, host);
 
             var result = (ApiResult)service.GetType().InvokeMember(method, System.Reflection.BindingFlags.InvokeMethod, null, service, arguments);
             if (!string.IsNullOrEmpty(result.Error))
@@ -41,7 +41,7 @@ namespace LooWooTech.AssetsTrade.Managers.TradeApi
                 if (result.Error.Contains("连接已断开"))
                 {
                     service.Logout();
-                    service.Login(account, serviceIp);
+                    service.Login(account, host);
                     result = (ApiResult)service.GetType().InvokeMember(method, System.Reflection.BindingFlags.InvokeMethod, null, service, arguments);
                 }
             }
@@ -50,7 +50,7 @@ namespace LooWooTech.AssetsTrade.Managers.TradeApi
 
         public ApiResult InvokeMethod(MainAccount account, string method, object[] arguments)
         {
-            var service = GetService();
+            var service = GetTradeService();
             var result = InvokeApi(service, account, method, arguments);
             //如果出错，调用其它服务
             if (!string.IsNullOrEmpty(result.Error))

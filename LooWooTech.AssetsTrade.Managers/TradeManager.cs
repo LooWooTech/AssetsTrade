@@ -82,9 +82,13 @@ namespace LooWooTech.AssetsTrade.Managers
         {
             using (var db = GetDbContext())
             {
-                var stocks = db.ChildStocks.FirstOrDefault(e => e.StockCode == stockCode && e.ChildID == child.ChildID);
+                var stock = db.ChildStocks.FirstOrDefault(e => e.StockCode == stockCode && e.ChildID == child.ChildID);
+                if (stock == null)
+                {
+                    throw new ArgumentException("没有持有该股票");
+                }
                 //查看持仓 数量是否符合
-                if (stocks.UseableCount < number)
+                if (stock.UseableCount < number)
                 {
                     throw new ArgumentException("没有足够的股票可以卖出");
                 }
@@ -119,9 +123,9 @@ namespace LooWooTech.AssetsTrade.Managers
                     //赋值委托编号
                     model.AuthorizeIndex = result.Data;
                     //持仓总量-卖出数量
-                    stocks.AllCount -= number;
+                    stock.AllCount -= number;
                     //可用数量-卖出数量（可卖出股票必定是可用股票）
-                    stocks.UseableCount -= number;
+                    stock.UseableCount -= number;
 
                     db.ChildAuthorizes.Add(model);
                     db.SaveChanges();

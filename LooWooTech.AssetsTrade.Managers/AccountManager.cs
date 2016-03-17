@@ -87,26 +87,6 @@ namespace LooWooTech.AssetsTrade.Managers
             }
         }
 
-        private static MainAccount _serverAccount;
-
-        public MainAccount GetServerMainAccount()
-        {
-            if (_serverAccount == null)
-            {
-                var mainAccountId = System.Configuration.ConfigurationManager.AppSettings["MainAccountID"];
-                using (var db = GetDbContext())
-                {
-                    _serverAccount = db.MainAccounts.FirstOrDefault(e => e.MainID == mainAccountId);
-                    if (_serverAccount == null)
-                    {
-                        throw new Exception("请在配置文件中填写主账户MainAccountID的值");
-                    }
-                }
-            }
-
-            return _serverAccount;
-        }
-
         public void UpdateChildAccountMoneyAndStocks(MainAccount account)
         {
             using (var db = GetDbContext())

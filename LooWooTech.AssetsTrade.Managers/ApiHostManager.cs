@@ -8,23 +8,28 @@ using System.Threading.Tasks;
 
 namespace LooWooTech.AssetsTrade.Managers
 {
-    public class IPManager : ManagerBase
+    public class ApiHostManager : ManagerBase
     {
         private static DateTime _lastUpdateTime = DateTime.MinValue;
-        private static readonly List<ServiceIP> IPList = new List<ServiceIP>();
+        private static readonly List<ApiHost> _data = new List<ApiHost>();
         private static object _lockObj = new object();
 
-        public List<ServiceIP> GetList()
+        public ApiHostManager()
+        {
+            UpdateData();
+        }
+
+        public List<ApiHost> GetList()
         {
             using (var db = GetDbContext())
             {
-                return db.ServiceIPs.ToList();
+                return db.ApiHosts.ToList();
             }
         }
 
-        public void UpdateIPList()
+        public void UpdateData()
         {
-            if ((DateTime.Now - _lastUpdateTime).TotalHours < 1) return;
+            if (_data.Count > 0 && (DateTime.Now - _lastUpdateTime).TotalHours < 1) return;
 
             lock (_lockObj)
             {
@@ -37,11 +42,11 @@ namespace LooWooTech.AssetsTrade.Managers
                     throw new Exception("请在数据库中配置Service的IP和端口");
                 }
 
-                IPList.Clear();
+                _data.Clear();
 
                 if (list.Count == 1)
                 {
-                    IPList.Add(list[0]);
+                    _data.Add(list[0]);
                     return;
                 }
 
@@ -54,7 +59,7 @@ namespace LooWooTech.AssetsTrade.Managers
                         if (reply.Status == System.Net.NetworkInformation.IPStatus.Success)
                         {
                             ip.Ping = reply.RoundtripTime;
-                            IPList.Add(ip);
+                            _data.Add(ip);
                         }
                     }
                 }).Start();
@@ -62,11 +67,11 @@ namespace LooWooTech.AssetsTrade.Managers
             }
         }
 
-        public ServiceIP GetFastIP(Type serviceType = null)
+        public ApiHost GetFastHost(Type serviceType, ApiType type)
         {
-            UpdateIPList();
+            UpdateData();
             var serviceName = serviceType.Name;
-            return IPList.Where(e => e.Service == serviceName).OrderBy(e => e.Ping).FirstOrDefault();
+            return _data.Where(e => e.Service == serviceName).OrderBy(e => e.Ping).FirstOrDefault();
         }
 
     }
