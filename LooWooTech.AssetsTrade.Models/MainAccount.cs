@@ -77,5 +77,22 @@ namespace LooWooTech.AssetsTrade.Models
 
         public int? UpdateTime { get; set; }
 
+        /// <summary>
+        /// 上海股东代码
+        /// </summary>
+        public string SH_GDDM { get; set; }
+        /// <summary>
+        /// 深圳股东代码
+        /// </summary>
+        public string SZ_GDDM { get; set; }
+        /// <summary>
+        /// 接口版本
+        /// </summary>
+        public string TradeApiVersion { get; set; }
+        /// <summary>
+        /// 营业部代码
+        /// </summary>
+        public string YingYeBuDM { get; set; }
+
     }
 }

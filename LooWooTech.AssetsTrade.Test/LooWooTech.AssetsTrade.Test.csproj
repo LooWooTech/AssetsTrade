@@ -65,6 +65,7 @@
   <ItemGroup>
     <Compile Include="Controllers\QueryControllerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TradeApi\TdxMarketServiceTests.cs" />
     <Compile Include="TradeApi\TdxTradeServiceTests.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -75,6 +76,10 @@
     <ProjectReference Include="..\LooWooTech.AssetsTrade.Models\LooWooTech.AssetsTrade.Models.csproj">
       <Project>{4E833563-9BFC-4288-88EC-AB1D8DA54BF2}</Project>
       <Name>LooWooTech.AssetsTrade.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LooWooTech.AssetsTrade.TradeApi\LooWooTech.AssetsTrade.TradeApi.csproj">
+      <Project>{10a9976f-8442-46d0-b67f-6cb4f46158fa}</Project>
+      <Name>LooWooTech.AssetsTrade.TradeApi</Name>
     </ProjectReference>
     <ProjectReference Include="..\LooWooTech.AssetsTrade.WebApi\LooWooTech.AssetsTrade.WebApi.csproj">
       <Project>{5D7ACCBA-8D03-4235-951D-B72F655951E6}</Project>

@@ -23,13 +23,5 @@ namespace LooWooTech.AssetsTrade.Models
 
         [NotMapped]
         public long Ping { get; set; }
-
-        public ApiType ApiType { get; set; }
-    }
-
-    public enum ApiType
-    {
-        Trade,
-        Market,
     }
 }

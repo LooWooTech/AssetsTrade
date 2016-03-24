@@ -64,21 +64,21 @@ namespace LooWooTech.AssetsTrade.Managers
         public void SyncStocks(MainAccount account)
         {
             //TODO
-            var list = QueryStocks(account);
-            if (list.Count == 0) return;
+            throw new NotImplementedException();
+            //if (list.Count == 0) return;
 
-            using (var db = GetDbContext())
-            {
-                foreach (var item in list)
-                {
-                    var stock = db.ChildStocks.FirstOrDefault(e => e.StockCode == item.StockCode);
-                    if (stock != null)
-                    {
-                        stock.CurrentPrice = item.CurrentPrice;
-                    }
-                }
-                db.SaveChanges();
-            }
+            //using (var db = GetDbContext())
+            //{
+            //    foreach (var item in list)
+            //    {
+            //        var stock = db.ChildStocks.FirstOrDefault(e => e.StockCode == item.StockCode);
+            //        if (stock != null)
+            //        {
+            //            stock.CurrentPrice = item.CurrentPrice;
+            //        }
+            //    }
+            //    db.SaveChanges();
+            //}
         }
     }
 }

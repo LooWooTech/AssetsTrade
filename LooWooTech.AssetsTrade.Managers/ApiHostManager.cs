@@ -10,12 +10,12 @@ namespace LooWooTech.AssetsTrade.Managers
 {
     public class ApiHostManager : ManagerBase
     {
-        private static DateTime _lastUpdateTime = DateTime.MinValue;
-        private static readonly List<ApiHost> _data = new List<ApiHost>();
+        private static List<ApiHost> _data;
         private static object _lockObj = new object();
 
         public ApiHostManager()
         {
+            _data = GetList();
             UpdateData();
         }
 
@@ -27,6 +27,7 @@ namespace LooWooTech.AssetsTrade.Managers
             }
         }
 
+        private static DateTime _lastUpdateTime = DateTime.MinValue;
         public void UpdateData()
         {
             if (_data.Count > 0 && (DateTime.Now - _lastUpdateTime).TotalHours < 1) return;
@@ -34,40 +35,26 @@ namespace LooWooTech.AssetsTrade.Managers
             lock (_lockObj)
             {
                 if ((DateTime.Now - _lastUpdateTime).TotalHours < 1) return;
-
-                var list = GetList();
-
-                if (list.Count == 0)
-                {
-                    throw new Exception("请在数据库中配置Service的IP和端口");
-                }
-
-                _data.Clear();
-
-                if (list.Count == 1)
-                {
-                    _data.Add(list[0]);
-                    return;
-                }
-
                 new Thread(() =>
                 {
-                    foreach (var ip in list)
+                    var list = new List<ApiHost>();
+                    foreach (var ip in _data)
                     {
                         var ping = new System.Net.NetworkInformation.Ping();
                         var reply = ping.Send(ip.IPAddress, 1000 * 10);
                         if (reply.Status == System.Net.NetworkInformation.IPStatus.Success)
                         {
                             ip.Ping = reply.RoundtripTime;
-                            _data.Add(ip);
                         }
                     }
+                    _data = _data.OrderBy(e => e.Ping).ToList();
+
+                    _lastUpdateTime = DateTime.Now;
                 }).Start();
-                _lastUpdateTime = DateTime.Now;
             }
         }
 
-        public ApiHost GetFastHost(Type serviceType, ApiType type)
+        public ApiHost GetFastHost(Type serviceType)
         {
             UpdateData();
             var serviceName = serviceType.Name;

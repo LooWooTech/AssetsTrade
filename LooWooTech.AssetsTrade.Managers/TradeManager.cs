@@ -11,6 +11,25 @@ namespace LooWooTech.AssetsTrade.Managers
 {
     public class TradeManager : ManagerBase
     {
+        private bool IsTradeTime()
+        {
+            var time = DateTime.Now;
+            var week = time.DayOfWeek;
+            if (week == DayOfWeek.Saturday || week == DayOfWeek.Sunday)
+            {
+                return false;
+            }
+            if (time.Hour < 9 || (time.Hour >= 15 && time.Hour < 21))
+            {
+                return false;
+            }
+            //if (time.Hour >= 9 && time.Minute < 15)
+            //{
+            //    return false;
+            //}
+            return true;
+        }
+
         /// <summary>
         /// 买入股票
         /// </summary>
@@ -18,6 +37,10 @@ namespace LooWooTech.AssetsTrade.Managers
         {
             using (var db = GetDbContext())
             {
+                if(!IsTradeTime())
+                {
+                    throw new Exception("当前时间不能交易");
+                }
                 //总费用
                 var totalPrice = number * price + child.GetShouXuFei(stockCode, price, number) + child.GetGuoHuFei(stockCode, price, number);
                 //判断余额
@@ -82,6 +105,10 @@ namespace LooWooTech.AssetsTrade.Managers
         {
             using (var db = GetDbContext())
             {
+                if (!IsTradeTime())
+                {
+                    throw new Exception("当前时间不能交易");
+                }
                 var stock = db.ChildStocks.FirstOrDefault(e => e.StockCode == stockCode && e.ChildID == child.ChildID);
                 if (stock == null)
                 {
@@ -92,6 +119,12 @@ namespace LooWooTech.AssetsTrade.Managers
                 {
                     throw new ArgumentException("没有足够的股票可以卖出");
                 }
+                //如果有零手股，则number必须是100的倍数或等于可用股票余额数
+                if (stock.UseableCount % 100 != 0 && number % 100 != 0 && number != stock.UseableCount)
+                {
+                    throw new ArgumentException("卖出股票数量不正确");
+                }
+
                 //调用卖出接口 
                 var result = Core.ServiceManager.Sell(child.Parent, stockCode, number, price);
                 //声明一个新委托
@@ -146,6 +179,10 @@ namespace LooWooTech.AssetsTrade.Managers
         {
             using (var db = GetDbContext())
             {
+                if (!IsTradeTime())
+                {
+                    throw new Exception("当前时间不能交易");
+                }
                 var authorize = db.ChildAuthorizes.FirstOrDefault(e => e.AuthorizeIndex == authorizeIndex && e.ChildID == child.ChildID);
                 if (authorize == null)
                 {

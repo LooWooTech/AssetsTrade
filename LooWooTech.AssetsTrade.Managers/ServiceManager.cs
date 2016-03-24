@@ -1,4 +1,5 @@
 ﻿using LooWooTech.AssetsTrade.Models;
+using LooWooTech.AssetsTrade.TradeApi;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ namespace LooWooTech.AssetsTrade.Managers
     public class ServiceManager : ManagerBase
     {
         private static readonly TradeApi.TradeServiceInvoker TradeServiceInvoker = new TradeApi.TradeServiceInvoker();
-        //private static readonly TradeApi.MarketServiceInvoker MarketServiceInvoker = new TradeApi.MarketServiceInvoker();
+        private static readonly TradeApi.MarketServiceInvoker MarketServiceInvoker = new TradeApi.MarketServiceInvoker();
 
         public ApiResult Buy(MainAccount account, string stockCode, int number, double price)
         {
@@ -60,8 +61,7 @@ namespace LooWooTech.AssetsTrade.Managers
 
         public ApiResult QueryMarket(string[] stockCodes)
         {
-            throw new NotImplementedException();
-            //return MarketServiceInvoker.InvokeMethod("QueryMarket", stockCodes);
+            return MarketServiceInvoker.InvokeMethod("QueryMarket", stockCodes);
         }
     }
 }

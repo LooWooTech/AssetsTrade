@@ -1,4 +1,5 @@
 ﻿using LooWooTech.AssetsTrade.Models;
+using LooWooTech.AssetsTrade.TradeApi;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,8 +32,10 @@ namespace LooWooTech.AssetsTrade.Managers.TradeApi
 
         private static ApiResult InvokeApi(ITradeService service, MainAccount account, string method, object[] arguments)
         {
-            var host = ManagerCore.Instance.ApiHostManager.GetFastHost(service.GetType(), ApiType.Trade);
-            service.Login(account, host);
+            var host = ManagerCore.Instance.ApiHostManager.GetFastHost(service.GetType());
+            service.Account = account;
+            service.Host = host;
+            service.Login();
 
             var result = (ApiResult)service.GetType().InvokeMember(method, System.Reflection.BindingFlags.InvokeMethod, null, service, arguments);
             if (!string.IsNullOrEmpty(result.Error))
@@ -41,7 +44,7 @@ namespace LooWooTech.AssetsTrade.Managers.TradeApi
                 if (result.Error.Contains("连接已断开"))
                 {
                     service.Logout();
-                    service.Login(account, host);
+                    service.Login();
                     result = (ApiResult)service.GetType().InvokeMember(method, System.Reflection.BindingFlags.InvokeMethod, null, service, arguments);
                 }
             }

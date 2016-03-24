@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LooWooTech.AssetsTrade.Models;
 using System.Diagnostics;
+using LooWooTech.AssetsTrade.TradeApi;
 
 namespace LooWooTech.AssetsTrade.Managers.TradeApi.Tests
 {
@@ -24,18 +25,18 @@ namespace LooWooTech.AssetsTrade.Managers.TradeApi.Tests
             {
 
             };
-            _ip = ManagerCore.Instance.ApiHostManager.GetFastHost(Service.GetType(), ApiType.Trade);
+            _ip = ManagerCore.Instance.ApiHostManager.GetFastHost(Service.GetType());
         }
 
         private void Login()
         {
-            Service.Login(_mainAccount, _ip);
+            Service.Login();
         }
 
         [TestMethod()]
         public void LoginTest()
         {
-            var result = Service.Login(_mainAccount, _ip);
+            var result = Service.Login();
             Assert.AreEqual(true, result.Result);
         }
 

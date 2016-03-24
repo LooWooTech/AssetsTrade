@@ -1,4 +1,5 @@
 ﻿using LooWooTech.AssetsTrade.Models;
+using LooWooTech.AssetsTrade.TradeApi;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,7 +32,7 @@ namespace LooWooTech.AssetsTrade.Managers.TradeApi
 
         private static ApiResult InvokeApi(IMarketService service, string method, object[] arguments)
         {
-            var host = ManagerCore.Instance.ApiHostManager.GetFastHost(service.GetType(), ApiType.Market);
+            var host = ManagerCore.Instance.ApiHostManager.GetFastHost(service.GetType());
             service.Connect(host);
 
             var result = (ApiResult)service.GetType().InvokeMember(method, System.Reflection.BindingFlags.InvokeMethod, null, service, arguments);
