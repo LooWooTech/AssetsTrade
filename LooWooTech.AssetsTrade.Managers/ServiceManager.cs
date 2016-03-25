@@ -61,7 +61,7 @@ namespace LooWooTech.AssetsTrade.Managers
 
         public ApiResult QueryMarket(string[] stockCodes)
         {
-            return MarketServiceInvoker.InvokeMethod("QueryMarket", stockCodes);
+            return MarketServiceInvoker.InvokeMethod("GetMarketInfo", new object[] { stockCodes });
         }
     }
 }

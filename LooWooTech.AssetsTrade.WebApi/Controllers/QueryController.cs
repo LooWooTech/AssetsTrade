@@ -81,10 +81,14 @@ namespace LooWooTech.AssetsTrade.WebApi.Controllers
             return SuccessResult(result);
         }
 
-        public ActionResult QueryMarkets(string[] stockCodes)
+        public ActionResult Market(string stockCodes)
         {
-            Core.StockManager.QueryMarket(stockCodes);
-            throw new NotImplementedException();
+            if (string.IsNullOrEmpty(stockCodes))
+            {
+                throw new ArgumentException("参数错误");
+            }
+            var data = Core.StockManager.QueryMarket(stockCodes.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries));
+            return SuccessResult(data.Replace("\t", ","));
         }
     }
 }

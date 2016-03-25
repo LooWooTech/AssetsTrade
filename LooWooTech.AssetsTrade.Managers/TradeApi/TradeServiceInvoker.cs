@@ -15,7 +15,7 @@ namespace LooWooTech.AssetsTrade.Managers.TradeApi
         public TradeServiceInvoker()
         {
             _services.Add(new TdxTradeService(), true);
-            _services.Add(new TdxTrade1Service(), true);
+            //_services.Add(new TdxTrade1Service(), true);
         }
 
         private ITradeService GetTradeService()
@@ -31,14 +31,20 @@ namespace LooWooTech.AssetsTrade.Managers.TradeApi
             }
         }
 
-        private static ApiResult InvokeApi(ITradeService service, MainAccount account, string method, object[] arguments)
+        private static ApiResult InvokeApi(ITradeService service, MainAccount account, string methodName, object[] arguments)
         {
             var host = ManagerCore.Instance.ApiHostManager.GetFastHost(service.GetType());
             service.Account = account;
             service.Host = host;
             service.Login();
 
-            var result = (ApiResult)service.GetType().InvokeMember(method, System.Reflection.BindingFlags.InvokeMethod, null, service, arguments);
+            var method = service.GetType().GetMethod(methodName);
+            if (method == null)
+            {
+                throw new Exception("没有找到接口" + methodName);
+            }
+            var result = (ApiResult)method.Invoke(service, arguments);
+
             if (!string.IsNullOrEmpty(result.Error))
             {
                 //尝试一次登录
@@ -46,16 +52,16 @@ namespace LooWooTech.AssetsTrade.Managers.TradeApi
                 {
                     service.Logout();
                     service.Login();
-                    result = (ApiResult)service.GetType().InvokeMember(method, System.Reflection.BindingFlags.InvokeMethod, null, service, arguments);
+                    result = (ApiResult)method.Invoke(service, arguments);
                 }
             }
             return result;
         }
 
-        public ApiResult InvokeMethod(MainAccount account, string method, object[] arguments)
+        public ApiResult InvokeMethod(MainAccount account, string methodName, object[] arguments)
         {
             var service = GetTradeService();
-            var result = InvokeApi(service, account, method, arguments);
+            var result = InvokeApi(service, account, methodName, arguments);
             //如果出错，调用其它服务
             if (!string.IsNullOrEmpty(result.Error))
             {
@@ -67,7 +73,7 @@ namespace LooWooTech.AssetsTrade.Managers.TradeApi
                     }
                     if (!kv.Value)
                     {
-                        result = InvokeApi(kv.Key, account, method, arguments);
+                        result = InvokeApi(kv.Key, account, methodName, arguments);
                         if (string.IsNullOrEmpty(result.Error))
                         {
                             SetMainService(kv.Key);

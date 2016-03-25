@@ -30,12 +30,16 @@ namespace LooWooTech.AssetsTrade.Managers.TradeApi
             }
         }
 
-        private static ApiResult InvokeApi(IMarketService service, string method, object[] arguments)
+        private static ApiResult InvokeApi(IMarketService service, string methodName, object[] arguments)
         {
             var host = ManagerCore.Instance.ApiHostManager.GetFastHost(service.GetType());
             service.Connect(host);
-
-            var result = (ApiResult)service.GetType().InvokeMember(method, System.Reflection.BindingFlags.InvokeMethod, null, service, arguments);
+            var method = service.GetType().GetMethod(methodName);
+            if (method == null)
+            {
+                throw new Exception("没有找到接口" + methodName);
+            }
+            var result = (ApiResult)method.Invoke(service, arguments);
             if (!string.IsNullOrEmpty(result.Error))
             {
                 //尝试一次登录
@@ -43,7 +47,7 @@ namespace LooWooTech.AssetsTrade.Managers.TradeApi
                 {
                     service.Disconnet();
                     service.Connect(host);
-                    result = (ApiResult)service.GetType().InvokeMember(method, System.Reflection.BindingFlags.InvokeMethod, null, service, arguments);
+                    result = (ApiResult)method.Invoke(service, arguments);
                 }
             }
             return result;
