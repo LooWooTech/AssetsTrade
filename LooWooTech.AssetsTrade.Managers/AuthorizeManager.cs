@@ -22,11 +22,9 @@ namespace LooWooTech.AssetsTrade.Managers
             }
 
             var list = new List<ChildAuthorize>();
-            var rows = result.Data.Split('\n');
+            var rows = result.Data.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
             foreach (var row in rows)
             {
-                if (string.IsNullOrEmpty(row)) continue;
-
                 list.Add(ChildAuthorize.Parse(row));
             }
             return list;
@@ -48,7 +46,7 @@ namespace LooWooTech.AssetsTrade.Managers
             using (var db = GetDbContext())
             {
                 var startTime = DateTime.Today.AddDays(-1).ToUnixTime();
-                var list = db.ChildAuthorizes.Where(e => e.AuthorizeTimeValue > startTime && e.AuthorizeIndex != "0");
+                var list = db.ChildAuthorizes.Where(e => e.AuthorizeTimeValue > startTime && e.AuthorizeIndex != 0);
                 foreach (var model in list)
                 {
                     if ("已成,已撤,部撤,废单".Contains(model.AuthorizeState))

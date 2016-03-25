@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -41,7 +42,7 @@ namespace LooWooTech.AssetsTrade.WebApi.Controllers
         public ActionResult CancelOrders()
         {
             var list = Core.AuthorizeManager.GetList(CurrentAccount);
-            return SuccessResult(list.Where(e => e.AuthorizeState.Contains("撤")));
+            return SuccessResult(list.Where(e => e.AuthorizeState.Contains("撤")).ToList());
         }
 
         /// <summary>
@@ -78,6 +79,12 @@ namespace LooWooTech.AssetsTrade.WebApi.Controllers
         {
             var result = Core.TradeManager.GetFrozenMoney(CurrentAccount);
             return SuccessResult(result);
+        }
+
+        public ActionResult QueryMarkets(string[] stockCodes)
+        {
+            Core.StockManager.QueryMarket(stockCodes);
+            throw new NotImplementedException();
         }
     }
 }

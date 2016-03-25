@@ -30,6 +30,22 @@ namespace LooWooTech.AssetsTrade.TradeApi
             throw new Exception("账户未登录");
         }
 
+        private StringBuilder RemoveFirstLine(StringBuilder sb)
+        {
+            if (sb.Length == 0) return sb;
+            var index = -1;
+            for (var i = 0; i < sb.Length; i++)
+            {
+                if (sb[i] == '\n')
+                {
+                    index = i;
+                    break;
+                }
+            }
+            sb.Remove(0, index + 1);
+            return sb;
+        }
+
         public ApiResult Login()
         {
             var success = new ApiResult { Result = true };
@@ -45,6 +61,10 @@ namespace LooWooTech.AssetsTrade.TradeApi
             var clientId = TdxTrade1Api.Logon(Host.IPAddress, (short)Host.Port,
                 Account.TradeApiVersion, Account.YingYeBuDM,
                 Account.MainID, Account.MainID, Account.TradePassword, Account.MessagePassword, error);
+            if (clientId > -1)
+            {
+                LoginAccounts.GetOrAdd(Account.MainID, clientId);
+            }
             return new ApiResult
             {
                 Result = clientId == -1,
@@ -118,6 +138,7 @@ namespace LooWooTech.AssetsTrade.TradeApi
             var data = new StringBuilder(ResultCapacity);
             var error = new StringBuilder(ErrorCapacity);
             TdxTrade1Api.QueryData(GetClientId(), 2, data, error);
+            RemoveFirstLine(data);
             return new ApiResult
             {
                 Result = error.Length == 0,
@@ -130,8 +151,8 @@ namespace LooWooTech.AssetsTrade.TradeApi
         {
             var data = new StringBuilder(ResultCapacity);
             var error = new StringBuilder(ErrorCapacity);
-            //TODO资金
             TdxTrade1Api.QueryHistoryData(GetClientId(), 3, startTime.ToString("yyyyMMdd"), endTime.ToString("yyyyMMdd"), data, error);
+            RemoveFirstLine(data);
             return new ApiResult
             {
                 Result = error.Length == 0,
@@ -145,6 +166,7 @@ namespace LooWooTech.AssetsTrade.TradeApi
             var data = new StringBuilder(ResultCapacity);
             var error = new StringBuilder(ErrorCapacity);
             TdxTrade1Api.QueryHistoryData(GetClientId(), 1, startTime.ToString("yyyyMMdd"), endTime.ToString("yyyyMMdd"), data, error);
+            RemoveFirstLine(data);
             return new ApiResult
             {
                 Result = error.Length == 0,
@@ -158,6 +180,7 @@ namespace LooWooTech.AssetsTrade.TradeApi
             var data = new StringBuilder(ResultCapacity);
             var error = new StringBuilder(ErrorCapacity);
             TdxTrade1Api.QueryData(GetClientId(), 0, data, error);
+            RemoveFirstLine(data);
             return new ApiResult
             {
                 Result = error.Length == 0,
@@ -171,6 +194,7 @@ namespace LooWooTech.AssetsTrade.TradeApi
             var data = new StringBuilder(ResultCapacity);
             var error = new StringBuilder(ErrorCapacity);
             TdxTrade1Api.QueryData(GetClientId(), 1, data, error);
+            RemoveFirstLine(data);
             return new ApiResult
             {
                 Result = error.Length == 0,
@@ -184,6 +208,7 @@ namespace LooWooTech.AssetsTrade.TradeApi
             var data = new StringBuilder(ResultCapacity);
             var error = new StringBuilder(ErrorCapacity);
             TdxTrade1Api.QueryData(GetClientId(), 3, data, error);
+            RemoveFirstLine(data);
             return new ApiResult
             {
                 Result = error.Length == 0,

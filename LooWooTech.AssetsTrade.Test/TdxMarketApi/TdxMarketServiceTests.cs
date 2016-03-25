@@ -1,18 +1,17 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using LooWooTech.AssetsTrade.Managers.TradeApi;
+using LooWooTech.AssetsTrade.TradeApi;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using LooWooTech.AssetsTrade.TradeApi;
+using LooWooTech.AssetsTrade.Managers;
 
-namespace LooWooTech.AssetsTrade.Managers.TradeApi.Tests
+namespace LooWooTech.AssetsTrade.TradeApi.Tests
 {
     [TestClass()]
     public class TdxMarketServiceTests
     {
-
         private TdxMarketService TdxMarketService = new TdxMarketService();
 
         [TestMethod()]

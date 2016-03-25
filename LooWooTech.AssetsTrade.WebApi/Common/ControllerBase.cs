@@ -95,8 +95,20 @@ namespace LooWooTech.AssetsTrade.WebApi
                 filterContext.HttpContext.Response.StatusCode = GetStatusCode(filterContext.Exception);
             }
             filterContext.HttpContext.Response.TrySkipIisCustomErrors = true;
-            filterContext.Result = ErrorResult(filterContext.Exception.InnerException ?? filterContext.Exception);
-            LogHelper.WriteLog(filterContext.Exception);
+            filterContext.Result = ErrorResult(GetException(filterContext.Exception));
+            if (filterContext.HttpContext.Response.StatusCode >= 500)
+            {
+                LogHelper.WriteLog(filterContext.Exception);
+            }
+        }
+
+        private Exception GetException(Exception ex)
+        {
+            if (ex.InnerException != null)
+            {
+                return GetException(ex.InnerException);
+            }
+            return ex;
         }
     }
 }

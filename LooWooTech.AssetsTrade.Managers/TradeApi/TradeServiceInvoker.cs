@@ -14,7 +14,7 @@ namespace LooWooTech.AssetsTrade.Managers.TradeApi
 
         public TradeServiceInvoker()
         {
-            _services.Add(new TdxTradeService(), true);
+            _services.Add(new TdxTrade1Service(), true);
         }
 
         private ITradeService GetTradeService()

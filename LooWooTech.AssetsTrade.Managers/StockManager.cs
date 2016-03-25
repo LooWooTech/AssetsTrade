@@ -23,6 +23,28 @@ namespace LooWooTech.AssetsTrade.Managers
             }
         }
 
+        /// <summary>
+        /// 同步持仓股票市价
+        /// </summary>
+        public void SyncStocks(MainAccount account)
+        {
+            using (var db = GetDbContext())
+            {
+                var childIds = Core.AccountManager.GetChildIds(account.MainID);
+                var list = db.ChildStocks.Where(e => childIds.Contains(e.ChildID));
+                var stockCodes = list.Select(e => e.StockCode).ToArray();
+                var data = QueryMarket(stockCodes);
+                var rows = data.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
+                foreach (var row in rows)
+                {
+                    var market = StockMarket.Parse(row);
+                    var entity = list.FirstOrDefault(e => e.StockCode == market.StockCode);
+                    entity.CurrentPrice = market.CurrentPrice;
+                }
+                db.SaveChanges();
+            }
+        }
+
         public List<ChildStock> GetMainStocks(string mainId)
         {
             using (var db = GetDbContext())
@@ -61,24 +83,17 @@ namespace LooWooTech.AssetsTrade.Managers
         /// <summary>
         /// 同步股票市价
         /// </summary>
-        public void SyncStocks(MainAccount account)
+        public string QueryMarket(string[] stockCodes)
         {
-            //TODO
-            throw new NotImplementedException();
-            //if (list.Count == 0) return;
-
-            //using (var db = GetDbContext())
-            //{
-            //    foreach (var item in list)
-            //    {
-            //        var stock = db.ChildStocks.FirstOrDefault(e => e.StockCode == item.StockCode);
-            //        if (stock != null)
-            //        {
-            //            stock.CurrentPrice = item.CurrentPrice;
-            //        }
-            //    }
-            //    db.SaveChanges();
-            //}
+            var result = Core.ServiceManager.QueryMarket(stockCodes);
+            if(result.Result)
+            {
+                return result.Data;
+            }
+            else
+            {
+                throw new Exception(result.Error);
+            }
         }
     }
 }

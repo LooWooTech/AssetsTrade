@@ -59,7 +59,7 @@ namespace LooWooTech.AssetsTrade.Managers
                 var authorize = new ChildAuthorize
                 {
                     ID = DateTime.Now.ToString("yyyyMMddHHmmssffff"),
-                    AuthorizeIndex = "0",
+                    AuthorizeIndex = 0,
                     AuthorizeCount = number,
                     AuthorizePrice = price,
                     ChildID = child.ChildID,
@@ -81,7 +81,7 @@ namespace LooWooTech.AssetsTrade.Managers
                     //冻结股票资金和相关费用
                     toUpdateChildEntity.UseableMoney -= totalPrice;
                     //委托编号
-                    authorize.AuthorizeIndex = result.Data;
+                    authorize.AuthorizeIndex = int.Parse(result.Data);
 
                     db.ChildAuthorizes.Add(authorize);
                     db.SaveChanges();
@@ -131,7 +131,7 @@ namespace LooWooTech.AssetsTrade.Managers
                 var model = new ChildAuthorize
                 {
                     ID = DateTime.Now.ToString("yyyyMMddHHmmssffff"),
-                    AuthorizeIndex = "0",
+                    AuthorizeIndex = 0,
                     AuthorizeCount = number,
                     AuthorizePrice = price,
                     StockCode = stockCode,
@@ -154,7 +154,7 @@ namespace LooWooTech.AssetsTrade.Managers
                     toUpdateChild.UseableMoney -= child.GetYinHuaShui(model.StockCode, model.StrikePrice, model.StrikeCount);
 
                     //赋值委托编号
-                    model.AuthorizeIndex = result.Data;
+                    model.AuthorizeIndex = int.Parse(result.Data);
                     //持仓总量-卖出数量
                     stock.AllCount -= number;
                     //可用数量-卖出数量（可卖出股票必定是可用股票）
@@ -175,7 +175,7 @@ namespace LooWooTech.AssetsTrade.Managers
         /// <summary>
         /// 撤单
         /// </summary>
-        public void CancelOrder(string authorizeIndex, string stockCode, ChildAccount child)
+        public void CancelOrder(int authorizeIndex, string stockCode, ChildAccount child)
         {
             using (var db = GetDbContext())
             {
@@ -192,7 +192,7 @@ namespace LooWooTech.AssetsTrade.Managers
                 {
                     throw new Exception("该委托已提交过撤单");
                 }
-                var result = Core.ServiceManager.Cancel(child.Parent, stockCode, authorize.AuthorizeIndex);
+                var result = Core.ServiceManager.Cancel(child.Parent, stockCode, authorize.AuthorizeIndex.ToString());
                 if (result.Result)
                 {
                     authorize.AuthorizeState = "待撤";

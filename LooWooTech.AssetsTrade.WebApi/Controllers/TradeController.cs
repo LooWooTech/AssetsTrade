@@ -46,9 +46,9 @@ namespace LooWooTech.AssetsTrade.WebApi.Controllers
         /// <summary>
         /// 撤单
         /// </summary>
-        public ActionResult Cancel(string stockCode, string authorizeIndex)
+        public ActionResult Cancel(string stockCode, int authorizeIndex)
         {
-            if (string.IsNullOrEmpty(stockCode) || string.IsNullOrEmpty(authorizeIndex))
+            if (string.IsNullOrEmpty(stockCode) || authorizeIndex == 0)
             {
                 throw new ArgumentException("参数不正确");
             }

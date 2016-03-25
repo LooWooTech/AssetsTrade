@@ -65,7 +65,8 @@
   <ItemGroup>
     <Compile Include="Controllers\QueryControllerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TradeApi\TdxMarketServiceTests.cs" />
+    <Compile Include="TdxMarketApi\TdxMarketServiceTests.cs" />
+    <Compile Include="TdxTrade1Api\TdxTrade1ServiceTests.cs" />
     <Compile Include="TradeApi\TdxTradeServiceTests.cs" />
   </ItemGroup>
   <ItemGroup>

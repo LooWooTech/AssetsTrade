@@ -30,11 +30,11 @@ namespace LooWooTech.AssetsTrade.Managers
         private static DateTime _lastUpdateTime = DateTime.MinValue;
         public void UpdateData()
         {
-            if (_data.Count > 0 && (DateTime.Now - _lastUpdateTime).TotalHours < 1) return;
+            if (_data.Count > 0 && (DateTime.Now - _lastUpdateTime).TotalMinutes < 1) return;
 
             lock (_lockObj)
             {
-                if ((DateTime.Now - _lastUpdateTime).TotalHours < 1) return;
+                if ((DateTime.Now - _lastUpdateTime).TotalMinutes < 1) return;
                 new Thread(() =>
                 {
                     var list = new List<ApiHost>();

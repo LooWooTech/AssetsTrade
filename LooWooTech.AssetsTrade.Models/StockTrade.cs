@@ -13,6 +13,12 @@ namespace LooWooTech.AssetsTrade.Models
     {
         public static StockTrade Parse(string queryData)
         {
+            //TdxTrade1Api接口结果
+            //证券代码\t证券名称\t买卖标志\t买卖标志\t成交价格\t成交数量\t成交金额\t成交编号\t委托编号\t股东代码\t帐号类别\t保留信息\n
+            //159915\t创业板\t1\t卖出\t2.095\t100.00\t209.50\t27404\t27521\t0107874749\t0\t\n
+
+
+            //TdxTradeApi接口结果
             //当日成交
             //0         1          2    3     4       5       6          7成交编号  8委托编号       9           10
             //300191\t  潜能恒信\t  0\t  买入\t32.960\t100.00\t3296.00\t   56716\t   52933\t        0107874749\t0  \t  \t
@@ -24,9 +30,10 @@ namespace LooWooTech.AssetsTrade.Models
             //20160225\t002790\t瑞尔特\t0\t买入\t0\t32.00\t405417\t23488\t0107874749\t0\t0\t
             if (string.IsNullOrEmpty(queryData)) return null;
             var fields = queryData.Split('\t');
-            //当日
-            if (fields.Length == 13)
+            //当日交易
+            if (fields[0].Length == 6)
             {
+                //fields = fields[0].Split(' ')
                 return new StockTrade
                 {
                     StockCode = fields[0],
@@ -34,11 +41,9 @@ namespace LooWooTech.AssetsTrade.Models
                     TradeFlag = fields[3],
                     StrikePrice = double.Parse(fields[4]),
                     StrikeCount = (int)double.Parse(fields[5]),
-
-                    TradeID = fields[7],
-                    AuthorizeIndex = fields[8],
-                    StockHolderCode = fields[9],
-                    TradeDate = DateTime.Today,
+                    AuthorizeIndex = fields[7],
+                    StockHolderCode = fields[8],
+                    TradeDate = DateTime.Today
                 };
             }
             else
@@ -83,7 +88,7 @@ namespace LooWooTech.AssetsTrade.Models
         /// <summary>
         /// 成交金额
         /// </summary>
-        public double StrikeMoney                                                                                    
+        public double StrikeMoney
         {
             get
             {
