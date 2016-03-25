@@ -28,5 +28,12 @@ namespace LooWooTech.AssetsTrade.TradeApi.Tests
             Console.WriteLine(result.Data);
             Assert.AreEqual(true, result.Result);
         }
+
+        [TestMethod()]
+        public void BuyTest()
+        {
+            var result = Service.Buy("600307", 100, 5.21f);
+            Assert.AreEqual(true, result.Result);
+        }
     }
 }

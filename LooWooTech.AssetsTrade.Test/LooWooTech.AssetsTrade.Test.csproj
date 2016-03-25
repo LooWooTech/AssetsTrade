@@ -67,7 +67,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TdxMarketApi\TdxMarketServiceTests.cs" />
     <Compile Include="TdxTrade1Api\TdxTrade1ServiceTests.cs" />
-    <Compile Include="TradeApi\TdxTradeServiceTests.cs" />
+    <Compile Include="TdxTradeApi\TdxTradeServiceTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LooWooTech.AssetsTrade.Managers\LooWooTech.AssetsTrade.Managers.csproj">
