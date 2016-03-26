@@ -37,7 +37,7 @@ namespace LooWooTech.AssetsTrade.Managers
                 if ((DateTime.Now - _lastUpdateTime).TotalMinutes < 1) return;
                 new Thread(() =>
                 {
-                    var list = new List<ApiHost>();
+                    _data = GetList();
                     foreach (var ip in _data)
                     {
                         var ping = new System.Net.NetworkInformation.Ping();

@@ -88,7 +88,7 @@ namespace LooWooTech.AssetsTrade.WebApi.Controllers
                 throw new ArgumentException("参数错误");
             }
             var data = Core.StockManager.QueryMarket(stockCodes.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries));
-            return SuccessResult(data.Replace("\t", ","));
+            return SuccessResult(data.Replace("\t", "|"));
         }
     }
 }
